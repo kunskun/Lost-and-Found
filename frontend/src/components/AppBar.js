@@ -1,18 +1,18 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import CottageIcon from '@mui/icons-material/Cottage';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import ToggleButton from '@mui/material/ToggleButton';
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import MenuItem from "@mui/material/MenuItem";
+import Menu from "@mui/material/Menu";
+import CottageIcon from "@mui/icons-material/Cottage";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import ToggleButton from "@mui/material/ToggleButton";
 
 export default function NavBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [language, setLanguage] = React.useState(true)
+  const [language, setLanguage] = React.useState(true);
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -24,19 +24,19 @@ export default function NavBar() {
     setAnchorEl(null);
   };
 
-  const menuId = 'primary-search-account-menu';
+  const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
       anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
+        vertical: "top",
+        horizontal: "right",
       }}
       id={menuId}
       keepMounted
       transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
+        vertical: "top",
+        horizontal: "right",
       }}
       open={isMenuOpen}
       onClose={handleMenuClose}
@@ -47,7 +47,7 @@ export default function NavBar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static"sx={{ bgcolor: 'black' }}>
+      <AppBar position="static" sx={{ bgcolor: "black", height: 70 }}>
         <Toolbar>
           <IconButton
             size="large"
@@ -59,7 +59,7 @@ export default function NavBar() {
             <CottageIcon />
           </IconButton>
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton
               size="large"
               edge="end"
@@ -70,57 +70,84 @@ export default function NavBar() {
               color="inherit"
             >
               <Typography
-                  fontSize={20}
-                  noWrap
-                  component="div"
-                  sx={{ mr: 2, justifyItem: 'center', display: { xs: 'none', sm: 'block' } }}
+                fontSize={20}
+                noWrap
+                component="div"
+                sx={{
+                  mr: 2,
+                  justifyItem: "center",
+                  display: { xs: "none", sm: "block" },
+                }}
               >
-                  Username
+                Username
               </Typography>
               <AccountCircleOutlinedIcon />
             </IconButton>
-            <Box sx={{ p: 2, justifyItem: 'center', display: { xs: 'none', md: 'flex' } }}>
+            <Box
+              sx={{
+                p: 2,
+                justifyItem: "center",
+                display: { xs: "none", md: "flex" },
+              }}
+            >
               <ToggleButton
                 value="th"
                 selected={language}
-                sx={{  border: 'none', backgroundColor: '' }}
+                sx={{ border: "none", backgroundColor: "" }}
                 color="primary"
                 onClick={() => {
-                  setLanguage(true)
+                  setLanguage(true);
                 }}
               >
                 <Typography
-                    noWrap
-                    component="div"
-                    fontSize="20"
-                    sx={{ color: 'white', display: { xs: 'none', sm: 'block', fontWeight: language === true ? 'bold' : 'regular'} }}
+                  noWrap
+                  component="div"
+                  fontSize="20"
+                  sx={{
+                    color: "white",
+                    display: {
+                      xs: "none",
+                      sm: "block",
+                      fontWeight: language === true ? "bold" : "regular",
+                    },
+                  }}
                 >
                   TH
                 </Typography>
               </ToggleButton>
               <Typography
-                  variant="h5"
-                  noWrap
-                  component="div"
-                  sx={{ py: 1, display: { xs: 'none', sm: 'block', fontWeight: 'bold' } }}
-                  align="center"
+                variant="h5"
+                noWrap
+                component="div"
+                sx={{
+                  py: 1,
+                  display: { xs: "none", sm: "block", fontWeight: "bold" },
+                }}
+                align="center"
               >
                 |
               </Typography>
               <ToggleButton
                 value="en"
                 selected={language}
-                sx={{  border: 'none', backgroundColor: '' }}
+                sx={{ border: "none", backgroundColor: "" }}
                 color="primary"
                 onClick={() => {
-                  setLanguage(false)
+                  setLanguage(false);
                 }}
-                >
+              >
                 <Typography
-                    noWrap
-                    component="div"
-                    fontSize="20"
-                    sx={{ color: 'white', display: { xs: 'none', sm: 'block', fontWeight: !language === true ? 'bold' : 'regular' } }}
+                  noWrap
+                  component="div"
+                  fontSize="20"
+                  sx={{
+                    color: "white",
+                    display: {
+                      xs: "none",
+                      sm: "block",
+                      fontWeight: !language === true ? "bold" : "regular",
+                    },
+                  }}
                 >
                   EN
                 </Typography>

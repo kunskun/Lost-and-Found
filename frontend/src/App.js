@@ -1,15 +1,21 @@
 import './App.css';
-import Item from './components/Item'; 
+import { ItemCard } from './components/Item'; 
 import Type from './components/Type'; 
 import Status from './components/Status'; 
 import SearchInput from './components/Search';
 import { Grid, Typography } from '@mui/material';
+import { useItem } from './contexts/ItemContext';
+import { TypeProvider } from './contexts/TypeContext';
 
 function App() {
+const { items } = useItem()
+
   return (
     <Grid container spacing={2} sx={{ p: 2 }}>
       <Grid item xs={2}>
-        <Type />
+        <TypeProvider>
+          <Type />
+        </TypeProvider>
         <Status />
       </Grid>
       <Grid item xs={8}>
@@ -27,8 +33,14 @@ function App() {
           <Grid item xs={2}>
             <SearchInput />
           </Grid>
-          <Grid item xs={12} sx={{ mt: 2 }}>
-            <Item />
+          <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} xs={12} sx={{ mt: 2 }}>
+            {items.map((item, index) => (
+              <Grid item xs={2}>
+                <a href='#' style={{ textDecoration: 'none' }}>
+                  <ItemCard key={item.id} item={item} />
+                </a>
+              </Grid>
+            ))}
           </Grid>
         </Grid>
       </Grid>
