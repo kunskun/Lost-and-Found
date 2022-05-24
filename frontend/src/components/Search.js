@@ -42,6 +42,7 @@ export default function BasicTextFields() {
           }
           label="Search"
           sx={{
+            color: "#ffffff",
             bgcolor: "#212121",
           }}
         />
