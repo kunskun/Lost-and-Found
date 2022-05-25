@@ -22,17 +22,17 @@ export const ItemCard = ({ item }) => {
         <Typography gutterBottom variant="h5" component="div">
           {item.name}
         </Typography>
-        <Typography variant="body2" color="#00e676">
+        <Typography variant="body2" sx={{color: item.status === 'ส่งคืนแล้ว' ? '#00e676':'#ff0000'}} >
           {item.status}
         </Typography>
-        {/* <Button
+        <Button
           onClick={() => {
             addItem({ name: "กระเป๋า", status: "ยังไม่พบเจ้าของ" });
             console.log(items);
           }}
         >
           Test
-        </Button> */}
+        </Button>
       </CardContent>
       {/* <CardActions>
         <Button size="small">Share</Button>

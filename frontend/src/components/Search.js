@@ -5,14 +5,16 @@ import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
 import SearchIcon from "@mui/icons-material/Search";
+import { useItem } from "../contexts/ItemContext";
+import { useState } from "react";
 
-export default function BasicTextFields() {
-  const [values, setValues] = React.useState({
-    text: "",
-  });
+export default function SearchBox() {
+  const { searchItem } = useItem();
+  const [text, setText] = useState("");
 
-  const handleChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value });
+  const handleChange = (event) => {
+    setText(event.target.value);
+    searchItem(event.target.value)
   };
 
   return (
@@ -28,8 +30,8 @@ export default function BasicTextFields() {
         </InputLabel>
         <OutlinedInput
           id="search-input"
-          value={values.text}
-          onChange={handleChange("text")}
+          value={text}
+          onChange={handleChange}
           endAdornment={
             <InputAdornment
               position="end"

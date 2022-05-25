@@ -6,8 +6,23 @@ import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import { useType } from "../contexts/TypeContext";
 
-export default function CheckboxLabels() {
-  const { types } = useType()
+export default function CheckboxTypes() {
+  const { types, updateType } = useType();
+
+  const handleChange = (event) => {
+    updateType(event.target.id);
+    console.log(event.target.id);
+  };
+
+  // const seleted = (id) => {
+  //   types.forEach((type) => {
+  //     if (type.id.toString() === id) {
+  //       type.checked = !type.checked;
+  //       console.log(type);
+  //     }
+  //   });
+  // };
+
   return (
     <Box sx={{ mb: 2 }}>
       <Typography
@@ -19,9 +34,19 @@ export default function CheckboxLabels() {
         หมวดหมู่
       </Typography>
       <FormGroup>
-        { types.map((type) => (
-          <FormControlLabel control={<Checkbox />} label={type} />
-        )) }
+        {types.map((type) => (
+          <FormControlLabel
+          key={type.id}
+          control={
+            <Checkbox
+              id={type.id}
+              checked={type.checked}
+              onChange={handleChange}
+            />
+          }
+          label={type.name}
+          />
+        ))}
       </FormGroup>
     </Box>
   );

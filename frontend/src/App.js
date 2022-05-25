@@ -8,7 +8,7 @@ import { useItem } from './contexts/ItemContext';
 import { TypeProvider } from './contexts/TypeContext';
 
 function App() {
-const { items } = useItem()
+const {  items, listItem } = useItem()
 
   return (
     <Grid container spacing={2} sx={{ p: 2 }}>
@@ -33,9 +33,9 @@ const { items } = useItem()
           <Grid item xs={2}>
             <SearchInput />
           </Grid>
-          <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} xs={12} sx={{ mt: 2 }}>
-            {items.map((item, index) => (
-              <Grid item xs={2}>
+          <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{ mt: 2 }}>
+            {listItem.map((item, index) => (
+              <Grid item xs={3}>
                 <a href='#' style={{ textDecoration: 'none' }}>
                   <ItemCard key={item.id} item={item} />
                 </a>

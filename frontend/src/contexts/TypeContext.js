@@ -10,46 +10,56 @@ export const TypeContext = createContext();
 export const TypeProvider = ({ children }) => {
   const [types, setTypes] = useState([]);
 
-  useEffect(() => {
-    fetchTypes();
-  }, []);
-
   const fetchTypes = useCallback(() => {
     setTypes(() => [
-      "มือถือ",
-      "กระเป๋า",
-      "กุญแจ",
-      "ปากกา",
-      "หูฟัง",
+      {id: '1', name: "มือถือ", checked: false},
+      {id: '2', name:"กระเป๋า", checked: false},
+      {id: '3', name:"กุญแจ", checked: false},
+      {id: '4', name:"ปากกา", checked: false},
+      {id: '5', name:"หูฟัง", checked: false},
+      {id: '6', name:"โน็ตบุ้ค", checked: false},
     ]);
-  });
+  },[]);
 
   const addType = useCallback(
     (type) => {
-      setTypes((prev) => [...prev, type]);
+      setTypes((prev) => [...prev, {id: types.length, name: type.name, checked: false}]);
       console.log(types);
     },
     [types]
   );
+  
   const updateType = useCallback(
-    (index) => (text) => () => {
+    (id) => {
       setTypes((prev) => {
-        const type = prev[index];
+        const item = types.filter((type) => {
+          if(type.id.toString() === id){
+            return type
+          }
+        })
+        const index = types.findIndex(type => {
+          return type.id.toString() === id
+        })
+        console.log(index);
         const newType = {
-          ...type,
-          text,
+          id: item.id,
+          name: item.name,
+          checked: !item.checked,
         };
+        console.log("test", ...prev.slice(0, index), newType, ...prev.slice(index + 1));
         return [...prev.slice(0, index), newType, ...prev.slice(index + 1)];
       });
     },
     []
   );
+
   const removeType = useCallback(
     (index) => () => {
       setTypes((prev) => [...prev.slice(0, index), ...prev.slice(index + 1)]);
     },
     []
   );
+
   const value = useMemo(
     () => ({
       types,
@@ -59,6 +69,11 @@ export const TypeProvider = ({ children }) => {
     }),
     [types, addType, updateType, removeType]
   );
+
+  useEffect(() => {
+    fetchTypes();
+  }, []);
+
   return <TypeContext.Provider value={value}>{children}</TypeContext.Provider>;
 };
 
