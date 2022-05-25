@@ -1,6 +1,7 @@
 const graphql = require('graphql');
 const Book = require('./book');
 const Author = require('./author');
+const User = require('./users');
 
 
 
@@ -53,6 +54,13 @@ const AuthorType = new GraphQLObjectType({
    })
 })
 
+const UserType = new GraphQLObjectType({
+    name: 'User',
+    fields: () => ({
+        googleId: { type: GraphQLString },
+    })
+ })
+
 
 
 //RootQuery describe how users can use the graph and grab data.
@@ -81,6 +89,12 @@ const RootQuery = new GraphQLObjectType({
                return Book.find({});
            }
        },
+       users:{
+        type: new GraphQLList(UserType),
+        resolve(parent, args) {
+            return User.find({});
+        }
+    },
        author:{
            type: AuthorType,
            args: { id: { type: GraphQLID } },
