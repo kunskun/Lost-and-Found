@@ -3,7 +3,14 @@ const config = require('config');
 const {graphqlHTTP }= require('express-graphql');
 const schema = require('../schema/schema')
 const app = express();
+const mongoose = require('mongoose');
+mongoose.connect('mongodb+srv://admin:admin@cluster0.pe6cq.mongodb.net/lost-and-found')
  
+mongoose.connection.once('open', () => {
+ 
+   console.log('connected to database');
+ 
+});
 
  
  
@@ -28,8 +35,8 @@ app.use('/graphql', graphqlHTTP({
 
  
  
-app.listen(config.get('port'), () => {
+app.listen(4000, () => {
  
-   console.log('Listening on port ' + config.get('port'));
+   console.log('Listening on port 4000');
  
 });
