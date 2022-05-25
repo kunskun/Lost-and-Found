@@ -13,16 +13,18 @@ export const ItemProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [found, setFound] = useState(false);
   const [lost, setLost] = useState(false);
+  const [types, setTypes] = useState([]);
 
   const fetchItems = useCallback(
     async () => {
       setLoading(true)
-      await setItems([
-        { id: 1, name: "iPhone 11", status: "ส่งคืนแล้ว", tag: [1] },
-        { id: 2, name: "Notebook", status: "ส่งคืนแล้ว", tag: [6] },
-        { id: 3, name: "Samsung", status: "ยังไม่พบเจ้าของ", tag: [1] },
-        { id: 4, name: "หูฟังสีชมพู", status: "ยังไม่พบเจ้าของ", tag: [5] },
-      ]);
+      let tmp = [
+        { id: 1, name: "iPhone 11", status: "ส่งคืนแล้ว", tag: 't1' },
+        { id: 2, name: "Notebook", status: "ส่งคืนแล้ว", tag: 't6' },
+        { id: 3, name: "Samsung", status: "ยังไม่พบเจ้าของ", tag: 't1' },
+        { id: 4, name: "หูฟังสีชมพู", status: "ยังไม่พบเจ้าของ", tag: 't5' },
+      ]
+      await setItems(tmp);
       setLoading(false)
     },
     []
@@ -58,62 +60,71 @@ export const ItemProvider = ({ children }) => {
     []
   );
 
-  const selectStatus = useCallback(
+  const selectedStatus = useCallback(
     (id, status) => {
       id === '1' ? setFound(status) : setLost(status) 
-      console.log(id, found, lost);
     }
   );
 
+  const selectedType = useCallback(
+    async(id, status) => {
+      if (status){
+        await setTypes((prev) => [...prev, id])
+      } else {
+        await setTypes(() => types.filter((type_id) => type_id !== id))
+      }
+    }
+  )
+
   const searchItem = useCallback(
     async (text) => {
-      if(loading){
-        await fetchItems()
-      } else {
-        console.log("test", lost, found);
         let tmp = []
         if(text) {
           tmp = items.filter((item) => item.name.toLowerCase().includes(text.toLowerCase()))
           await setListItem(tmp)
-        }
-        if(found && lost) {
+        }         
+        else if(found && lost){
           await setListItem(() => items)
         }
         else if(found) {
-          tmp = items.filter((item) => item.status == 'ส่งคืนแล้ว')
+          tmp = items.filter((item) => item.status === 'ส่งคืนแล้ว')
           await setListItem(tmp)
         }
         else if(lost) {
-          tmp = items.filter((item) => item.status == 'ยังไม่พบเจ้าของ')
+          tmp = items.filter((item) => item.status === 'ยังไม่พบเจ้าของ')
+          await setListItem(tmp)
+        }
+        else if(types) {
+          tmp = items.filter((item) => types.includes(item.tag))
           await setListItem(tmp)
         }
         else {
           await setListItem(() => items)
-          console.log("search", items);
         }
-      }
+      
     },
-    [items, listItem, found, lost, addItem]
+    [items, listItem, found, lost, types, addItem]
   );
 
   const value = useMemo(
     () => ({
       items,
-      selectStatus,
+      selectedStatus, 
+      selectedType,
       listItem,
       searchItem,
       addItem,
       updateItem,
       removeItem,
     }),
-    [items, selectStatus, listItem, searchItem, addItem, updateItem, removeItem]
+    [items, selectedStatus, selectedType, listItem, searchItem, addItem, updateItem, removeItem]
   );
 
   useEffect(() => {
     fetchItems();
     searchItem();
     ;
-  }, [found, lost]);
+  }, [found, lost, types]);
 
   return <ItemContext.Provider value={value}>{children}</ItemContext.Provider>;
 };

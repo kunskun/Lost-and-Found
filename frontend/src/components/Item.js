@@ -11,7 +11,7 @@ import { useItem } from "../contexts/ItemContext";
 export const ItemCard = ({ item }) => {
   const { addItem, items } = useItem();
   return (
-    <Card sx={{ width: "100%" }}>
+    <Card sx={{ width: "100%", bgcolor: "#efebe9" }}>
       <CardMedia
         component="img"
         width="90%"
@@ -22,17 +22,9 @@ export const ItemCard = ({ item }) => {
         <Typography gutterBottom variant="h5" component="div">
           {item.name}
         </Typography>
-        <Typography variant="body2" sx={{color: item.status === 'ส่งคืนแล้ว' ? '#00e676':'#ff0000'}} >
+        <Typography variant="body2" sx={{color: item.status === 'ส่งคืนแล้ว' ? '#00bfa5':'#ff0000'}} >
           {item.status}
         </Typography>
-        <Button
-          onClick={() => {
-            addItem({ name: "กระเป๋า", status: "ยังไม่พบเจ้าของ" });
-            console.log(items);
-          }}
-        >
-          Test
-        </Button>
       </CardContent>
       {/* <CardActions>
         <Button size="small">Share</Button>

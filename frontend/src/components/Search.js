@@ -45,7 +45,7 @@ export default function SearchBox() {
           label="Search"
           sx={{
             color: "#ffffff",
-            bgcolor: "#212121",
+            bgcolor: "#3e2723",
           }}
         />
       </FormControl>

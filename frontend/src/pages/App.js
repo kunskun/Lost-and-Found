@@ -1,14 +1,14 @@
-import './App.css';
-import { ItemCard } from './components/Item'; 
-import Type from './components/Type'; 
-import Status from './components/Status'; 
-import SearchInput from './components/Search';
+// import './App.css';
+import { ItemCard } from '../components/Item'; 
+import Type from '../components/Type'; 
+import Status from '../components/Status'; 
+import SearchInput from '../components/Search';
 import { Grid, Typography } from '@mui/material';
-import { useItem } from './contexts/ItemContext';
-import { TypeProvider } from './contexts/TypeContext';
+import { useItem } from '../contexts/ItemContext';
+import { TypeProvider } from '../contexts/TypeContext';
 
 function App() {
-const {  items, listItem } = useItem()
+  const {  items, listItem } = useItem()
 
   return (
     <Grid container spacing={2} sx={{ p: 2 }}>
