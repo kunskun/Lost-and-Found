@@ -50,7 +50,7 @@ export default function NavBar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ bgcolor: "black", height: 70 }}>
         <Toolbar>
-          <Link to="/" style={{textDecoration: 'none', color: '#ffffff'}}>
+          <a href="/" style={{textDecoration: 'none', color: '#ffffff'}}>
             <IconButton
               size="large"
               edge="start"
@@ -72,7 +72,7 @@ export default function NavBar() {
                   Lost & Found
                 </Typography>
             </IconButton>
-          </Link>
+          </a>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton

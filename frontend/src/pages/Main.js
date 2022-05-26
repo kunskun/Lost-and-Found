@@ -6,9 +6,15 @@ import SearchInput from '../components/Search';
 import { Grid, Typography } from '@mui/material';
 import { useItem } from '../contexts/ItemContext';
 import { TypeProvider } from '../contexts/TypeContext';
+import { useEffect } from 'react';
 
-function App() {
-  const {  items, listItem } = useItem()
+function Main() {
+  const { listItem } = useItem()
+
+  useEffect(() => {
+    localStorage.clear();
+  },
+  [])
 
   return (
     <Grid container spacing={2} sx={{ p: 2 }}>
@@ -36,7 +42,7 @@ function App() {
           <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{ mt: 2 }}>
             {listItem.map((item, index) => (
               <Grid item xs={3}>
-                <a href='#' style={{ textDecoration: 'none' }}>
+                <a href='/detail' style={{ textDecoration: 'none' }}>
                   <ItemCard key={item.id} item={item} />
                 </a>
               </Grid>
@@ -48,4 +54,4 @@ function App() {
   );
 }
 
-export default App;
+export default Main;

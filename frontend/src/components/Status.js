@@ -32,7 +32,7 @@ export default function CheckboxLabels() {
       </Typography>
       <FormGroup>
         <FormControlLabel
-          sx={{bgcolor: '#e0f2f1'}}
+          // sx={{bgcolor: '#e0f2f1'}}
           control={
             <Checkbox
               id={data[0].id}
@@ -48,7 +48,7 @@ export default function CheckboxLabels() {
           label={data[0].name}
         />
         <FormControlLabel
-        sx={{bgcolor: '#ffebee'}}
+        // sx={{bgcolor: '#ffebee'}}
           control={
             <Checkbox
               id={data[1].id}

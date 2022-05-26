@@ -14,15 +14,16 @@ export const ItemProvider = ({ children }) => {
   const [found, setFound] = useState(false);
   const [lost, setLost] = useState(false);
   const [types, setTypes] = useState([]);
+  const [selectedItem, setSelectedItem] = useState({});
 
   const fetchItems = useCallback(
     async () => {
       setLoading(true)
       let tmp = [
-        { id: 1, name: "iPhone 11", status: "ส่งคืนแล้ว", tag: 't1' },
-        { id: 2, name: "Notebook", status: "ส่งคืนแล้ว", tag: 't6' },
-        { id: 3, name: "Samsung", status: "ยังไม่พบเจ้าของ", tag: 't1' },
-        { id: 4, name: "หูฟังสีชมพู", status: "ยังไม่พบเจ้าของ", tag: 't5' },
+        { id: '1', name: "iPhone 11", status: "ส่งคืนแล้ว", tag: 't1', 'foundPlace': 'โรงอาหารคณะไอที', 'returnPlace': 'ห้องกิจการนักศึกษา ตึกคณะไอที', 'description': 'วางอยู่บนโต๊ะใกล้ร้านพี่ช้าง' },
+        { id: '2', name: "Notebook", status: "ส่งคืนแล้ว", tag: 't6', 'foundPlace': 'โรงอาหารคณะไอที', 'returnPlace': 'ห้องกิจการนักศึกษา ตึกคณะไอที', 'description': 'วางอยู่บนโต๊ะใกล้ร้านพี่ช้าง' },
+        { id: '3', name: "Samsung", status: "ยังไม่พบเจ้าของ", tag: 't1', 'foundPlace': 'โรงอาหารคณะไอที', 'returnPlace': 'ห้องกิจการนักศึกษา ตึกคณะไอที', 'description': 'วางอยู่บนโต๊ะใกล้ร้านพี่ช้าง' },
+        { id: '4', name: "หูฟังสีชมพู", status: "ยังไม่พบเจ้าของ", tag: 't5', 'foundPlace': 'โรงอาหารคณะไอที', 'returnPlace': 'ห้องกิจการนักศึกษา ตึกคณะไอที', 'description': 'วางอยู่บนโต๊ะใกล้ร้านพี่ช้าง' },
       ]
       await setItems(tmp);
       setLoading(false)
@@ -78,12 +79,10 @@ export const ItemProvider = ({ children }) => {
 
   const searchItem = useCallback(
     async (text) => {
+
         let tmp = []
-        if(text) {
-          tmp = items.filter((item) => item.name.toLowerCase().includes(text.toLowerCase()))
-          await setListItem(tmp)
-        }         
-        else if(found && lost){
+            
+        if(found && lost){
           await setListItem(() => items)
         }
         else if(found) {
@@ -101,14 +100,31 @@ export const ItemProvider = ({ children }) => {
         else {
           await setListItem(() => items)
         }
+
+        if(text) {
+          tmp = items.filter((item) => item.name.toLowerCase().includes(text.toLowerCase()))
+          await setListItem(tmp)
+        }     
       
     },
     [items, listItem, found, lost, types, addItem]
   );
 
+  const displayItem = useCallback(
+    async(id) => {
+      await items.filter((item) => {
+        if(item.id === id){
+          setSelectedItem(item)
+        }
+      })
+    }
+  );
+
   const value = useMemo(
     () => ({
-      items,
+      items, 
+      displayItem,
+      selectedItem,
       selectedStatus, 
       selectedType,
       listItem,
@@ -117,13 +133,12 @@ export const ItemProvider = ({ children }) => {
       updateItem,
       removeItem,
     }),
-    [items, selectedStatus, selectedType, listItem, searchItem, addItem, updateItem, removeItem]
+    [items, displayItem, selectedItem, selectedStatus, selectedType, listItem, searchItem, addItem, updateItem, removeItem]
   );
 
   useEffect(() => {
     fetchItems();
     searchItem();
-    ;
   }, [found, lost, types]);
 
   return <ItemContext.Provider value={value}>{children}</ItemContext.Provider>;
