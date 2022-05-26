@@ -11,12 +11,12 @@ function Detail() {
     const local = localStorage.getItem("item");
     setId(local)
     displayItem(id);
-  }, [id]);
+  }, [displayItem, id]);
 
   return (
 
-        <Grid container justifyContent="center" alignItems="center" spacing={2} sx={{ p: 5 }}>
-          <Grid item xs={6}>
+        <Grid container justifyContent="center" alignItems="center" spacing={2} sx={{ p: 5, bgcolor: '#eceff1' }}>
+          <Grid item xs={6} sx={{px: 2, py: 4, bgcolor: '#fafafa'}}>
             <Typography
               variant="h4"
               noWrap
@@ -29,9 +29,14 @@ function Detail() {
                 {selectedItem.status}
             </Typography>
             <img
-                width="90%"
-                src="https://us.123rf.com/450wm/koblizeek/koblizeek1902/koblizeek190200055/125337077-no-image-vector-symbol-missing-available-icon-no-gallery-for-this-moment-.jpg?ver=6"
-                alt="pic name"
+              src={selectedItem.image}
+              alt={selectedItem.name}
+              width="80%"
+              style={{
+                margin: '2% auto',
+                display: 'flex',
+                alignItems: 'center'
+              }}
             />
             <Typography variant="h6" fontWeight='bold'>
                 สถานที่รับคืน
