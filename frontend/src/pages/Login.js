@@ -1,9 +1,15 @@
 import * as React from "react";
 import { Grid } from "@mui/material";
 import { useLogin } from "../contexts/LoginContext";
+import { useEffect } from "react";
 
 function Login() {
-  const {loginAsAdmin} = useLogin()
+  const {loginAsAdmin, loginAsUser} = useLogin()
+
+  useEffect(() => {
+    
+  },
+  [loginAsUser])
 
   return (
     <Grid
@@ -13,7 +19,8 @@ function Login() {
       sx={{ my: "15%", position: "absolute" }}
     >
       <h1>SIGNIN</h1>
-      <button onClick={loginAsAdmin}>admin</button>
+      <button onClick={() => loginAsAdmin()}>admin</button>
+      <button onClick={() => loginAsUser()}>user</button>
     </Grid>
   );
 }

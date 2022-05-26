@@ -7,12 +7,30 @@ import { Grid, Typography } from "@mui/material";
 import { useItem } from "../contexts/ItemContext";
 import { TypeProvider } from "../contexts/TypeContext";
 import { useEffect } from "react";
+import AddIcon from '@mui/icons-material/Add';
+import IconButton from "@mui/material/IconButton";
+import { useLogin } from "../contexts/LoginContext";
 
 function Main() {
   const { listItem } = useItem();
+  const { admin } = useLogin();
 
+  const addItem = (
+    <IconButton
+        size="large"
+        edge="end"
+        aria-label="create new item"
+        aria-haspopup="true"
+        // onClick={handleMenuOpen}
+        color="inherit"
+    >
+      <AddIcon fontSize="20" sx={{ display: { fontWeight: "bold" }}}/>
+    </IconButton>
+  )
+  
   useEffect(() => {
     localStorage.clear();
+    
   }, []);
 
   return (
@@ -25,7 +43,7 @@ function Main() {
       </Grid>
       <Grid item xs={8} sx={{ p: 2, bgcolor: "#fafafa" }}>
         <Grid container>
-          <Grid item xs={9}>
+          <Grid item xs={9} sx={{justifyContent: 'center', alignItems: 'center'}}>
             <Typography
               variant="h4"
               noWrap
@@ -33,6 +51,7 @@ function Main() {
               sx={{ display: { xs: "none", sm: "block", fontWeight: "bold" } }}
             >
               ประกาศของหาย
+              { admin && addItem }
             </Typography>
           </Grid>
           <Grid item xs={3}>
