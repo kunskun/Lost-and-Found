@@ -77,34 +77,46 @@ export const ItemProvider = ({ children }) => {
     }
   )
 
+  const filterStatus = async () => {
+    let tmp = []
+
+    if(found && lost){
+      await setListItem(() => items)
+    }
+    else if(found) {
+      tmp = listItem.filter((item) => item.status === 'ส่งคืนแล้ว')
+      await setListItem(tmp)
+    }
+    else if(lost) {
+      tmp = listItem.filter((item) => item.status === 'ยังไม่พบเจ้าของ')
+      await setListItem(tmp)
+    }
+    else {
+      await setListItem(() => items)
+    }
+  }
+
   const searchItem = useCallback(
     async (text) => {
-
         let tmp = []
+
+        if(!found && !lost && types.length === 0 && !text){
+          await setListItem(items)
+          return;
+        } 
             
-        if(found && lost){
-          await setListItem(() => items)
-        }
-        else if(found) {
-          tmp = items.filter((item) => item.status === 'ส่งคืนแล้ว')
-          await setListItem(tmp)
-        }
-        else if(lost) {
-          tmp = items.filter((item) => item.status === 'ยังไม่พบเจ้าของ')
-          await setListItem(tmp)
-        }
-        else if(types) {
+        if(types) {
           tmp = items.filter((item) => types.includes(item.tag))
           await setListItem(tmp)
-        }
-        else {
-          await setListItem(() => items)
+        } 
+        if(found || lost) {
+          filterStatus()
         }
 
         if(text) {
-          tmp = items.filter((item) => item.name.toLowerCase().includes(text.toLowerCase()))
+          tmp = listItem.filter((item) => item.name.toLowerCase().includes(text.toLowerCase()))
           await setListItem(tmp)
-        }     
+        }
       
     },
     [items, listItem, found, lost, types, addItem]

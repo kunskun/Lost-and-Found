@@ -7,6 +7,7 @@ import { Grid, Typography } from '@mui/material';
 import { useItem } from '../contexts/ItemContext';
 import { TypeProvider } from '../contexts/TypeContext';
 import { useEffect } from 'react';
+import { useState } from 'react';
 
 function Main() {
   const { listItem } = useItem()

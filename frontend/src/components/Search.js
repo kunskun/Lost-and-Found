@@ -7,15 +7,22 @@ import FormControl from "@mui/material/FormControl";
 import SearchIcon from "@mui/icons-material/Search";
 import { useItem } from "../contexts/ItemContext";
 import { useState } from "react";
+import { useEffect } from "react";
 
 export default function SearchBox() {
-  const { searchItem } = useItem();
+  const { items, searchItem } = useItem();
   const [text, setText] = useState("");
 
   const handleChange = (event) => {
     setText(event.target.value);
     searchItem(event.target.value)
   };
+
+  useEffect(() => {
+    searchItem()
+  },
+  [items])
+
 
   return (
     <Box sx={{ display: "flex", flexWrap: "wrap", maxWidth: "100%" }}>
