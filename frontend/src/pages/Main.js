@@ -25,6 +25,7 @@ const FILMS_QUERY = gql`
 function Main() {
   const { listItem } = useItem();
   const { admin } = useLogin();
+
   const navigate = useNavigate();
 
   // const { data, loading, error } = useQuery(FILMS_QUERY);
@@ -45,6 +46,7 @@ function Main() {
   
   useEffect(() => {
     localStorage.clear();
+    
   }, []);
 
   // if (loading) return "Loading...";
@@ -59,7 +61,7 @@ function Main() {
       </Grid>
       <Grid item xs={8} sx={{ p: 2, bgcolor: "#fafafa" }}>
         <Grid container>
-          <Grid item xs={9}>
+          <Grid item xs={9} sx={{justifyContent: 'center', alignItems: 'center'}}>
             <Typography
               variant="h4"
               noWrap
@@ -67,6 +69,7 @@ function Main() {
               sx={{ display: { xs: "none", sm: "block", fontWeight: "bold" } }}
             >
               ประกาศของหาย
+              { admin && addItem }
             </Typography>
           </Grid>
           <Grid item xs={3}>
