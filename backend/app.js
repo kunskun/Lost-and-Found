@@ -6,6 +6,7 @@ const schema = require('./schema/schema')
 const app = express();
 const mongoose = require('mongoose');
 const User = require('./schema/users')
+const poses = require('./schema/poses')
 const cors = require('cors')
 const session = require('express-session');
 const bodyParser = require('body-parser'); // parser middleware
@@ -118,7 +119,15 @@ app.get('/api/callback',
     res.send(token);
   }
 );
+app.post('/api/post', function(req, res, next) {
+    poses.create(req.body)
+    res.status(200)
+  });
 
+// app.post('/api/post',passport.authenticate('jwt',{ session: false, failureRedirect: '/api/login' }), function(req, res, next) {
+//   poses.create(req.body)
+//   res.status(200)
+// });
   app.get('/api/kuy',passport.authenticate('jwt',{ session: false, failureRedirect: '/api/login' }), function(req, res, next) {
     res.send('kuy')
   });
