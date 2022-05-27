@@ -113,9 +113,34 @@ const Mutation = new GraphQLObjectType({
                return pose.save()
            }
        },
+       editPose:{
+        type:PoseType,
+        args:{
+            id: { type: GraphQLString },
+            name: { type: GraphQLString},
+            image: { type: GraphQLString },
+            status: { type: GraphQLString },
+            tag: { type: GraphQLString },
+            foundPlace: { type: GraphQLString },
+            returnPlace: { type: GraphQLString },
+            description: { type: GraphQLString },
+        },
+        resolve(parent,args){
+            let pose = new Pose({
+                name:args.name,
+                image:args.image,
+                status:args.status,
+                tag:args.tag,
+                foundPlace:args.foundPlace,
+                returnPlace:args.returnPlace,
+                description:args.description
+            })
+            return pose.findOneAndUpdate({_id: args.id})
+        }
+    },
        deletePose:{
         type:PoseType,
-        args: { id: { type: GraphQLID } },
+        args: { id: { type: GraphQLString } },
        
        resolve(parent,args){
         return Pose.findOneAndDelete({_id: args.id});

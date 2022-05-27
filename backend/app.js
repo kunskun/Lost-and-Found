@@ -132,7 +132,6 @@ app.post('/api/post', function(req, res, next) {
   app.post('/api/profile',passport.authenticate('jwt',{ session: false}), function(req, res, next) {
     User.findOne({googleId: req.user.googleId})
     .then(power =>{
-      console.log(power.config)
       res.json(power);
     }) 
  
