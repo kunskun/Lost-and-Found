@@ -33,7 +33,7 @@ app.use(
 app.options('*', cors())
 app.use(bodyParser.json());
 app.use(bodyParser.json({ limit: '50mb' }));
-app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
 app.use(session({
   resave: false,
   saveUninitialized: true,
@@ -107,7 +107,14 @@ app.get('/api/login',
       [ 'email', 'profile' ] }
 ));
 
+const up={
+  uploads:{
+    maxFieldSize: 1024 * 1024 * 10,
+    maxFilesSize: 1024 * 1024 * 10,
+  }
+}
 app.use('/api/graphql',graphqlHTTP({ 
+   up,
    schema,
    graphiql:true
  
