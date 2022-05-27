@@ -54,27 +54,8 @@ function Login() {
         </Typography>
       </CardContent>
       <CardActions sx={{justifyContent:"center", alignItems:"center", p: 2, bgcolor: '#efebe9'}}>
-        <Button variant="outlined" onClick={() => {
-          axios.get(`http://localhost:4000/api/login`)
-          .then(res => {
-            const persons = res.data;
-            setUser({ persons });
-          })
-        }}>
+        <Button variant="outlined" href="http://localhost:4000/api/login">
           Signin / Signup
-        </Button>
-        <Button variant="outlined" onClick={() => {
-          axios.post( 
-            'http://localhost:4000/api/profile',
-            bodyParameters,
-            config
-          )
-          .then(res => {
-            // const persons = res.data;
-            console.log(res);
-          })
-        }}>
-          Profile
         </Button>
       </CardActions>
     </React.Fragment>
