@@ -66,7 +66,7 @@ app.use(function (req, res, next) {
 passport.use(new GoogleStrategy({
   clientID:     "760391650787-v7t392aple8bqpupc35n7elckq6col37.apps.googleusercontent.com",
   clientSecret: "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",
-  callbackURL: "http://localhost:4000/api/callback",
+  callbackURL: "https://riwch.com/api/callback",
   passReqToCallback   : true
 },
 function(request, accessToken, refreshToken, profile, done) {
@@ -124,7 +124,7 @@ app.get('/api/callback',
   (req, res) => {
     const token = generateJwtToken(req.user);
     res.cookie('jwt', token);
-    res.redirect('http://localhost:3000');
+    res.redirect('https://riwch.com');
   }
 );
 app.post('/api/post', function(req, res, next) {
@@ -145,7 +145,7 @@ app.post('/api/post', function(req, res, next) {
   });
   app.get('/api/logout', (req, res) => {
     res.clearCookie('jwt');
-    res.redirect('http://localhost:3000');
+    res.redirect('https://riwch.com');
   });
 
 app.listen(4000, () => {
