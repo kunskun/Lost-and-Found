@@ -22,10 +22,6 @@ const POSES_QUERY = gql`{
   }
 `;
 
-// const ADD_POSE = gql`{
-
-// }`
-
 export const ItemProvider = ({ children }) => {
   const [items, setItems] = useState([]);
   const [listItem, setListItem] = useState([]);
@@ -52,19 +48,19 @@ export const ItemProvider = ({ children }) => {
   const addItem = useCallback(
     async (item) => {
       setItems((prev) => [...prev, {
-        id: (items.length+1).toString(),
+        id: item._id,
         image: item.image,
         name: item.name,
         status: "ยังไม่พบเจ้าของ",
-        tag: item.type,
-        foundPlace: item.found_place,
-        returnPlace: item.pick_place,
-        description: item.item_detail,
+        tag: item.tag,
+        foundPlace: item.foundPlace,
+        returnPlace: item.returnPlace,
+        description: item.description,
       }]);
       await searchItem();
       console.log(items);
     },
-    [items, listItem]
+    [items, listItem, data]
   );
 
   const updateItem = useCallback(
@@ -111,7 +107,7 @@ export const ItemProvider = ({ children }) => {
       let tmp = items.filter((item) => {return item._id !== id})
       setItems(tmp);
     },
-    [items]
+    [items, data]
   );
 
   const selectedStatus = useCallback((id, status) => {
@@ -209,7 +205,7 @@ export const ItemProvider = ({ children }) => {
   useEffect(() => {
     fetchItems();
     searchItem();
-  }, [fetchItems, found, lost, types]);
+  }, [found, lost, types, data]);
 
   return <ItemContext.Provider value={value}>{children}</ItemContext.Provider>;
 };
