@@ -6,7 +6,7 @@ import { useMemo, useCallback } from "react";
 export const LoginContext = createContext();
 
 export const LoginProvider = ({ children }) => {
-    const [login, setLogin] = useState(true);
+    const [login, setLogin] = useState(false);
     const [admin, setAdmin] = useState(true);
 
     const loginAsAdmin = useCallback(
