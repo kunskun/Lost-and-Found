@@ -128,9 +128,6 @@ app.post('/api/post', function(req, res, next) {
 //   poses.create(req.body)
 //   res.status(200)
 // });
-  app.get('/api/kuy',passport.authenticate('jwt',{ session: false, failureRedirect: '/api/login' }), function(req, res, next) {
-    res.send('kuy')
-  });
   app.post('/api/profile',passport.authenticate('jwt',{ session: false, failureRedirect: '/api/login' }), function(req, res, next) {
     User.findOne({googleId: req.user.googleId})
     .then(power =>{
