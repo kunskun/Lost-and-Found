@@ -41,7 +41,7 @@ function Login() {
         })
       }}>login</button>
       <button onClick={() => {
-        axios.get(`http://203.78.128.100:4000/kuy, {
+        axios.get(`http://203.78.128.100:4000/kuy`, {
           headers: {
             'Access-Control-Allow-Origin': true,
           },
