@@ -34,14 +34,14 @@ function Login() {
     >
       <h1>SIGNIN</h1>
       <button onClick={() => {
-        axios.get(`http://localhost:4000/login`)
+        axios.get(`http://203.78.128.100:4000/login`)
         .then(res => {
           const persons = res.data;
           setUser({ persons });
         })
       }}>login</button>
       <button onClick={() => {
-        axios.get(`http://localhost:4000/kuy`, {
+        axios.get(`http://203.78.128.100:4000/kuy, {
           headers: {
             'Access-Control-Allow-Origin': true,
           },
