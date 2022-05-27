@@ -117,7 +117,7 @@ export const ItemProvider = ({ children }) => {
       await setItems(tmp)
       await displayItem(id)
     },
-    []
+    [selectedItem]
   );
 
   const removeItem = useCallback(

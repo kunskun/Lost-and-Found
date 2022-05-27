@@ -81,7 +81,7 @@ export default function NavBar() {
   if(!login) {return null}
   return (
     <LoginProvider>
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1, pb: 1 }}>
         <AppBar position="menu" sx={{ bgcolor: "black", height: 80 }}>
           <Toolbar>
             <a href="/" style={{ textDecoration: "none", color: "#ffffff" }}>
