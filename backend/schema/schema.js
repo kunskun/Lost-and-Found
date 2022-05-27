@@ -1,9 +1,6 @@
 const graphql = require('graphql');
-const Book = require('./book');
-const Author = require('./author');
+const Pose = require('./poses');
 const User = require('./users');
-
-
 
 const {
    GraphQLObjectType, GraphQLString,
@@ -11,33 +8,26 @@ const {
    GraphQLList,GraphQLNonNull
 } = graphql;
 
-
-
 //Schema defines data on the Graph like object types(book type), relation between
 //these object types and describes how it can reach into the graph to interact with
 //the data to retrieve or mutate the data  
 
-
-
-const BookType = new GraphQLObjectType({
-   name: 'Book',
+const PoseType = new GraphQLObjectType({
+   name: 'Pose',
    //We are wrapping fields in the function as we dont want to execute this ultil
    //everything is inilized. For example below code will throw an error AuthorType not
    //found if not wrapped in a function
    fields: () => ({
        id: { type: GraphQLID  },
        name: { type: GraphQLString },
-       pages: { type: GraphQLInt },
-       author: {
-       type: AuthorType,
-       resolve(parent, args) {
-           return Author.findById(parent.authorID);
-       }
-   }
+       image: { type: GraphQLString },
+       status: { type: GraphQLString },
+       tag: { type: GraphQLString },
+       foundPlace: { type: GraphQLString },
+       returnPlace: { type: GraphQLString },
+       description: { type: GraphQLString },
    })
 });
-
-
 
 const AuthorType = new GraphQLObjectType({
    name: 'Author',
@@ -46,7 +36,7 @@ const AuthorType = new GraphQLObjectType({
        name: { type: GraphQLString },
        age: { type: GraphQLInt },
        book:{
-           type: new GraphQLList(BookType),
+           type: new GraphQLList(PoseType),
            resolve(parent,args){
                return Book.find({ authorID: parent.id });
            }
@@ -61,32 +51,27 @@ const UserType = new GraphQLObjectType({
     })
  })
 
-
-
 //RootQuery describe how users can use the graph and grab data.
 //E.g Root query to get all authors, get all books, get a particular
 //book or get a particular author.
 const RootQuery = new GraphQLObjectType({
    name: 'RootQueryType',
    fields: {
-       book: {
-           type: BookType,
+       pose: {
+           type: PoseType,
            //argument passed by the user while making the query
            args: { id: { type: GraphQLID } },
            resolve(parent, args) {
                //Here we define how to get data from database source
-
-
-
                //this will return the book with id passed in argument
                //by the user
-               return Book.findById(args.id);
+               return Pose.findById(args.id);
            }
        },
-       books:{
-           type: new GraphQLList(BookType),
+       poses:{
+           type: new GraphQLList(PoseType),
            resolve(parent, args) {
-               return Book.find({});
+               return Pose.find({});
            }
        },
        users:{
@@ -95,48 +80,23 @@ const RootQuery = new GraphQLObjectType({
             return User.find({});
         }
     },
-       author:{
-           type: AuthorType,
-           args: { id: { type: GraphQLID } },
-           resolve(parent, args) {
-               return Author.findById(args.id);
-           }
-       },
-       authors:{
-           type: new GraphQLList(AuthorType),
-           resolve(parent, args) {
-               return Author.find({});
-           }
-       }
    }
 });
-
 
 //Very similar to RootQuery helps users to add/update to the database.
 const Mutation = new GraphQLObjectType({
    name: 'Mutation',
    fields: {
-       addAuthor: {
-           type: AuthorType,
-           args: {
-               //GraphQLNonNull make these fields required
-               name: { type: new GraphQLNonNull(GraphQLString) },
-               age: { type: new GraphQLNonNull(GraphQLInt) }
-           },
-           resolve(parent, args) {
-               let author = new Author({
-                   name: args.name,
-                   age: args.age
-               });
-               return author.save();
-           }
-       },
-       addBook:{
-           type:BookType,
+       addPose:{
+           type:PoseType,
            args:{
-               name: { type: new GraphQLNonNull(GraphQLString)},
-               pages: { type: new GraphQLNonNull(GraphQLInt)},
-               authorID: { type: new GraphQLNonNull(GraphQLID)}
+                name: { type: new GraphQLNonNull(GraphQLString)},
+                image: { type: new GraphQLNonNull(GraphQLString) },
+                status: { type: new GraphQLNonNull(GraphQLString) },
+                tag: { type: new GraphQLNonNull(GraphQLString) },
+                foundPlace: { type: new GraphQLNonNull(GraphQLString) },
+                returnPlace: { type: new GraphQLNonNull(GraphQLString) },
+                description: { type: new GraphQLNonNull(GraphQLString) },
            },
            resolve(parent,args){
                let book = new Book({
