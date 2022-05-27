@@ -34,7 +34,7 @@ export const ItemProvider = ({ children }) => {
   const [types, setTypes] = useState([]);
   const [selectedItem, setSelectedItem] = useState({});
 
-  const { data, loading, error } = useQuery(POSES_QUERY);
+  const { data, loading, error } = useQuery(POSES_QUERY); 
   
   const fetchItems = useCallback(async () => {
     console.log(data.poses);
