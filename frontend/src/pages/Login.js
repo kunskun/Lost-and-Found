@@ -1,4 +1,10 @@
-import * as React from "react";
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 import { Grid } from "@mui/material";
 import { useLogin } from "../contexts/LoginContext";
 import { useEffect } from "react";
@@ -7,7 +13,7 @@ import axios from 'axios';
 import { useState } from "react";
 
 const config = {
-  headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjhlMTk5ZjU4ZDZhNThhMzU2OGI5YWYiLCJnb29nbGVJZCI6IjExNTUyNTE5NzQ4Njg5MzM5MTU4NSIsIl9fdiI6MCwiaWF0IjoxNjUzNjQ2MDUwLCJleHAiOjE2NTQyNTA4NTB9.igEgGhFq4Q-wv2qo-Pq7BIrEK7zcRX3j0IrgwzADYpY` }
+  headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJnb29nbGVJZCI6IjEwNzY2Mzg5NDc4Mjg4NTY0ODgxOCIsIl9pZCI6IjYyOTBhNGIwYjc4YWVlZDM3Yzk3MzJjMSIsIl9fdiI6MCwiaWF0IjoxNjUzNjQ2NTEzLCJleHAiOjE2NTQyNTEzMTN9.67q4B70sdvvOmQCDZzm1xdeGMhcY2Fp_sm4rLAH65_A` }
 };
 
 const bodyParameters = {
@@ -28,6 +34,52 @@ function Login() {
   const { data, loading, error } = useQuery(USERS_QUERY);
   const [user, setUser] = useState([]);
 
+  const bull = (
+    <Box
+      component="span"
+      sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
+    >
+      •
+    </Box>
+  );
+
+  const card = (
+    <React.Fragment>
+      <CardContent sx={{justifyContent:"center", alignItems:"center", p: 2, bgcolor: '#efebe9'}}>
+        <Typography variant="h5" color="text.secondary" gutterBottom sx={{textAlign: 'center'}}>
+          Welcome to
+        </Typography>
+        <Typography variant="h3" component="div"  sx={{textAlign: 'center', mb: 10}}>
+        Lost{bull}and{bull}Found
+        </Typography>
+      </CardContent>
+      <CardActions sx={{justifyContent:"center", alignItems:"center", p: 2, bgcolor: '#efebe9'}}>
+        <Button variant="outlined" onClick={() => {
+          axios.get(`http://localhost:4000/api/login`)
+          .then(res => {
+            const persons = res.data;
+            setUser({ persons });
+          })
+        }}>
+          Signin / Signup
+        </Button>
+        <Button variant="outlined" onClick={() => {
+          axios.post( 
+            'http://localhost:4000/api/profile',
+            bodyParameters,
+            config
+          )
+          .then(res => {
+            // const persons = res.data;
+            console.log(res);
+          })
+        }}>
+          Profile
+        </Button>
+      </CardActions>
+    </React.Fragment>
+  );
+
   useEffect(() => {
   },
   [loginAsUser])
@@ -40,26 +92,10 @@ function Login() {
       justifyContent="center"
       alignItems="center"
       sx={{ my: "15%", position: "absolute" }}
-    >
-      <h1>SIGNIN</h1>
-      <button onClick={() => {
-        axios.get(`http://localhost:4000/api/login`)
-        .then(res => {
-          const persons = res.data;
-          setUser({ persons });
-        })
-      }}>login</button>
-      <button onClick={() => {
-        axios.post( 
-          'http://localhost:4000/api/kuy',
-          bodyParameters,
-          config
-        )
-        .then(res => {
-          // const persons = res.data;
-          console.log(res);
-        })
-      }}>logout</button>
+    >     
+      <Box sx={{ width: '40%' }}>
+        <Card variant="outlined">{card}</Card>
+      </Box>
     </Grid>
   );
 }
