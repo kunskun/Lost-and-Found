@@ -48,6 +48,8 @@ const UserType = new GraphQLObjectType({
     name: 'User',
     fields: () => ({
         googleId: { type: GraphQLString },
+        user: { type: GraphQLInt },
+
     })
  })
 
