@@ -110,8 +110,16 @@ const Mutation = new GraphQLObjectType({
                    returnPlace:args.returnPlace,
                    description:args.description
                })
-               return pose.save()
+               return Pose.save(pose)
            }
+       },
+       deletePose:{
+        args:{
+            id: { type: new GraphQLNonNull(GraphQLString)},
+       },
+       resolve(parent,args){
+        return Pose.deleteOne({_id: args.id})
+    }
        }
    }
 });
