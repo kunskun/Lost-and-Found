@@ -93,18 +93,29 @@ export const ItemProvider = ({ children }) => {
   );
 
   const updateItem = useCallback(
-    (index) => (item) => () => {
-      setItems((prev) => {
-        const tmp = prev[index];
-        const newItem = {
-          ...tmp,
-          name: item.name,
-          status: item.status,
-        };
-        return [...prev.slice(0, index), newItem, ...prev.slice(index + 1)];
-      });
+    async (pose) => {
+      let tmp = []
+      await items.forEach((item) => {
+        if(item.id === selectedItem.id){
+          tmp.push({
+            id: selectedItem.id,
+            image: pose.image,
+            name: pose.name,
+            status: selectedItem.status,
+            tag: pose.type,
+            foundPlace: pose.found_place,
+            returnPlace: pose.pick_place,
+            description: pose.item_detail,
+          })
+          console.log(item);
+        } else {
+          tmp.push(item)
+        }
+      })
+      await setItems(tmp);
+      await searchItem();
     },
-    []
+    [items, listItem]
   );
 
   const returnItem = useCallback(

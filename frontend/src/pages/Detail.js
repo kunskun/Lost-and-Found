@@ -28,23 +28,10 @@ function Detail() {
       edge="end"
       aria-label="edit item"
       aria-haspopup="true"
-      // onClick={handleMenuOpen}
+      onClick={(selectedItem) => navigate("/edit")}
       color="inherit"
     >
       <EditTwoToneIcon fontSize="28" />
-    </IconButton>
-  );
-
-  const del = (
-    <IconButton
-      size="large"
-      edge="end"
-      aria-label="delete item"
-      aria-haspopup="true"
-      onClick={handleDelOpen}
-      color="inherit"
-    >
-      <DeleteTwoToneIcon fontSize="28" />
     </IconButton>
   );
 
