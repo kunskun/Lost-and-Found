@@ -10,10 +10,25 @@ import { useEffect } from "react";
 import AddIcon from '@mui/icons-material/Add';
 import IconButton from "@mui/material/IconButton";
 import { useLogin } from "../contexts/LoginContext";
+import { useNavigate } from "react-router-dom";
+import { useQuery, gql } from "@apollo/client";
+
+const FILMS_QUERY = gql`
+  {
+    launchesPast(limit: 10) {
+      id
+      mission_name
+    }
+  }
+`;
 
 function Main() {
   const { listItem } = useItem();
   const { admin } = useLogin();
+
+  const navigate = useNavigate();
+
+  // const { data, loading, error } = useQuery(FILMS_QUERY);
 
   const addItem = (
     <IconButton
@@ -23,6 +38,7 @@ function Main() {
         aria-haspopup="true"
         // onClick={handleMenuOpen}
         color="inherit"
+        onClick={() => navigate('/create')}
     >
       <AddIcon fontSize="20" sx={{ display: { fontWeight: "bold" }}}/>
     </IconButton>
@@ -33,6 +49,8 @@ function Main() {
     
   }, []);
 
+  // if (loading) return "Loading...";
+  // if (error) return <pre>{error.message}</pre>
   return (
     <Grid container spacing={2} sx={{ p: 2, bgcolor: "#eceff1" }}>
       <Grid item xs={2}>
