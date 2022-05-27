@@ -72,11 +72,15 @@ app.get('/login',
       [ 'email', 'profile' ] }
 ));
 
-app.get( '/auth/google/callback',
+app.post( '/auth/google/callback',
     passport.authenticate( 'google', {
         successRedirect: '/graphql',
         failureRedirect: '/login'
-}));
+}), (req, res)=>{
+  // If you use "Content-Type": "application/json"
+  // req.isAuthenticated is true if authentication was success else it is false
+  res.json({auth: req.isAuthenticated()});
+});
  
 app.use('/graphql',connectEnsureLogin(), graphqlHTTP({
  
