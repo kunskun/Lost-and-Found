@@ -4,75 +4,46 @@ import { useEffect } from "react";
 import { useMemo } from "react";
 import { useState } from "react";
 import { createContext } from "react";
+import { useQuery, gql, useMutation } from "@apollo/client";
 
 export const ItemContext = createContext();
+
+const POSES_QUERY = gql`{
+    poses{
+        _id
+        name
+        image
+        status
+        tag
+        foundPlace
+        returnPlace
+        description
+    }
+  }
+`;
 
 export const ItemProvider = ({ children }) => {
   const [items, setItems] = useState([]);
   const [listItem, setListItem] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [found, setFound] = useState(false);
   const [lost, setLost] = useState(false);
   const [types, setTypes] = useState([]);
   const [selectedItem, setSelectedItem] = useState({});
 
+  const { data, loading, error } = useQuery(POSES_QUERY);
+  
   const fetchItems = useCallback(async () => {
-    setLoading(true);
-    let tmp = [
-      {
-        id: "1",
-        image: 'https://www.priceza.com/article/wp-content/uploads/2020/05/iPhone-11-Pro-Max-cover.jpg',
-        name: "iPhone 11",
-        status: "ส่งคืนแล้ว",
-        tag: "t1",
-        foundPlace: "โรงอาหารคณะไอที",
-        returnPlace: "ห้องกิจการนักศึกษา ตึกคณะไอที",
-        description: "วางอยู่บนโต๊ะใกล้ร้านพี่ช้าง",
-      },
-      {
-        id: "2",
-        image: 'https://proreview.co/wp-content/uploads/2021/06/Apple-MacBook-Air-13-inch.jpg',
-        name: "Notebook",
-        status: "ส่งคืนแล้ว",
-        tag: "t6",
-        foundPlace: "โรงอาหารคณะไอที",
-        returnPlace: "ห้องกิจการนักศึกษา ตึกคณะไอที",
-        description: "วางอยู่บนโต๊ะใกล้ร้านพี่ช้าง",
-      },
-      {
-        id: "3",
-        image: 'https://www.investireoggi.it/tech/wp-content/uploads/sites/14/2019/05/Galaxy-Fold-che-fine-hai-fatto.jpg',
-        name: "Samsung Galaxy Fold",
-        status: "ยังไม่พบเจ้าของ",
-        tag: "t1",
-        foundPlace: "โรงอาหารคณะไอที",
-        returnPlace: "ห้องกิจการนักศึกษา ตึกคณะไอที",
-        description: "วางอยู่บนโต๊ะใกล้ร้านพี่ช้าง",
-      },
-      {
-        id: "4",
-        image: 'https://cf.shopee.co.th/file/67f2ea383c746b7bebb3e291ffaf9f2e',
-        name: "หูฟังสีชมพู",
-        status: "ยังไม่พบเจ้าของ",
-        tag: "t5",
-        foundPlace: "โรงอาหารคณะไอที",
-        returnPlace: "ห้องกิจการนักศึกษา ตึกคณะไอที",
-        description: "วางอยู่บนโต๊ะใกล้ร้านพี่ช้าง",
-      },
-      {
-        id: "5",
-        image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/AirPods.jpg/1200px-AirPods.jpg',
-        name: "Airpod",
-        status: "ยังไม่พบเจ้าของ",
-        tag: "t5",
-        foundPlace: "โรงอาหารคณะไอที",
-        returnPlace: "ห้องกิจการนักศึกษา ตึกคณะไอที",
-        description: "วางอยู่บนโต๊ะใกล้ร้านพี่ช้าง",
-      },
-    ];
-    await setItems(tmp);
-    setLoading(false);
-  }, []);
+    console.log(data.poses);
+    if(loading) {
+      console.log("Loading...");
+    }
+    else if(error){
+      console.log(error);
+    } else {
+      let tmp = data.poses
+      await setItems(tmp);
+    }
+  }, [items, data]);
 
   const addItem = useCallback(
     async (item) => {
@@ -234,7 +205,7 @@ export const ItemProvider = ({ children }) => {
   useEffect(() => {
     fetchItems();
     searchItem();
-  }, [found, lost, types]);
+  }, [fetchItems, found, lost, types]);
 
   return <ItemContext.Provider value={value}>{children}</ItemContext.Provider>;
 };

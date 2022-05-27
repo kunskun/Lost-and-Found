@@ -11,24 +11,12 @@ import AddIcon from '@mui/icons-material/Add';
 import IconButton from "@mui/material/IconButton";
 import { useLogin } from "../contexts/LoginContext";
 import { useNavigate } from "react-router-dom";
-import { useQuery, gql } from "@apollo/client";
-
-const FILMS_QUERY = gql`
-  {
-    launchesPast(limit: 10) {
-      id
-      mission_name
-    }
-  }
-`;
 
 function Main() {
-  const { listItem } = useItem();
+  const { items, listItem } = useItem();
   const { admin } = useLogin();
 
   const navigate = useNavigate();
-
-  // const { data, loading, error } = useQuery(FILMS_QUERY);
 
   const addItem = (
     <IconButton
@@ -36,7 +24,6 @@ function Main() {
         edge="end"
         aria-label="create new item"
         aria-haspopup="true"
-        // onClick={handleMenuOpen}
         color="inherit"
         onClick={() => navigate('/create')}
     >
@@ -47,7 +34,7 @@ function Main() {
   useEffect(() => {
     localStorage.clear();
     
-  }, []);
+  }, [listItem]);
 
   // if (loading) return "Loading...";
   // if (error) return <pre>{error.message}</pre>

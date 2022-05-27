@@ -18,7 +18,7 @@ const PoseType = new GraphQLObjectType({
    //everything is inilized. For example below code will throw an error AuthorType not
    //found if not wrapped in a function
    fields: () => ({
-       id: { type: GraphQLID  },
+       _id: { type: GraphQLID  },
        name: { type: GraphQLString },
        image: { type: GraphQLString },
        status: { type: GraphQLString },
