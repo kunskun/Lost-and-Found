@@ -45,7 +45,7 @@ export const LoginProvider = ({ children }) => {
     
       const fetchData = useCallback(
         () => {axios.post( 
-          'http://localhost:4000/api/profile',
+          'https://riwch.com/api/profile',
           bodyParameters,
           config
         )

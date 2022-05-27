@@ -10,7 +10,7 @@ import { TypeProvider } from "./contexts/TypeContext";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 
 const client = new ApolloClient({
-  uri: "http://localhost:4000/api/graphql",
+  uri: "https://riwch.com/api/graphql",
   cache: new InMemoryCache()
 });
 
