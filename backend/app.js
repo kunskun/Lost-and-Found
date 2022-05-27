@@ -32,8 +32,8 @@ app.use(
 }))
 app.options('*', cors())
 app.use(bodyParser.json());
-app.use(bodyParser.json({limit: "500mb"}));
-app.use(bodyParser.urlencoded({limit: "500mb", extended: true, parameterLimit:5000000000}))
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(session({
   resave: false,
   saveUninitialized: true,
