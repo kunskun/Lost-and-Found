@@ -13,12 +13,13 @@ import ToggleButton from "@mui/material/ToggleButton";
 import { useState } from "react";
 import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
 import { LoginProvider, useLogin } from "../contexts/LoginContext";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export default function NavBar() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [language, setLanguage] = useState(true);
   const {login, username, logout} = useLogin();
+  const navigate = useNavigate();
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -135,7 +136,9 @@ export default function NavBar() {
                       </Typography>
                       <AccountCircleOutlinedIcon fontSize="large" />
                       <Menu {...bindMenu(popupState)}>
-                        <MenuItem onClick={() => {logout()}}>Logout</MenuItem>
+                        <MenuItem>
+                          <Button onClick={() => {logout(); navigate("/login")}}>Logout</Button>
+                        </MenuItem>
                       </Menu>
                     </IconButton>
                   </React.Fragment>

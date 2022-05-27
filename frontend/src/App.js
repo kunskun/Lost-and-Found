@@ -18,18 +18,13 @@ import { useEffect } from "react";
 
 function App() {
   const {login, admin} = useLogin();
-
-  useEffect(() => {
-
-  },
-  [login])
   
   return (
     <ItemProvider>
       <Routes>
         <Route path="/login" element={login ? <Navigate to="/" /> : <Login />} />
         <Route path="/" element={ login ? <Main /> : <Navigate to="/login" />  } />
-        <Route path="detail" element={ login ? <Detail /> : <Navigate to="/login" />  }  />
+        <Route path="detail" element={ login ? <Detail /> : null }  />
         <Route path="create" element={ admin ? <Create /> : <h1> Not Have Permission </h1>} />
         <Route path="edit" element={ admin ? <Edit /> : <h1> Not Have Permission </h1>} />
       </Routes>

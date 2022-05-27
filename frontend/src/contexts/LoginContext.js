@@ -25,9 +25,9 @@ export const LoginProvider = ({ children }) => {
     const logout = useCallback(
       async () => {
           cookies.remove('jwt')
-          await setLogin(false);
-          await setAdmin(true);
-          await setUsername('');
+          setLogin(false);
+          setAdmin(false);
+          setUsername('');
           console.log(login, username, admin);
         },
         [login, username, admin]
@@ -44,28 +44,27 @@ export const LoginProvider = ({ children }) => {
       );
     
       const fetchData = useCallback(
-        async () => {
-          axios.post( 
-            'http://localhost:4000/api/profile',
-            bodyParameters,
-            config
-          )
-          .then(async (res) => {
-            setLogin(true);
-            if(res.data.users) {
-              await setAdmin(true);
-            } else {
-              await setAdmin(false);
-            }
-            await setUsername(res.data.displayName);
-            console.log(login, username, admin);
-          })
-        }  
+        () => {axios.post( 
+          'http://localhost:4000/api/profile',
+          bodyParameters,
+          config
+        )
+        .then(async (res) => {
+          await setLogin(true);
+          if(res.data.users) {
+            await setAdmin(true);
+          } else {
+            await setAdmin(false);
+          }
+          await setUsername(res.data.displayName);
+          console.log(login, username, admin);
+        })},
+        [login]
       )
     useEffect(() => {
-      if(!login) {fetchData()} 
+      fetchData()
     },
-    [login, admin, username, logout])
+    [])
 
     return <LoginContext.Provider value={value}>{children}</LoginContext.Provider>;
 }

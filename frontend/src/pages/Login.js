@@ -30,7 +30,7 @@ const USERS_QUERY = gql`
 `;
 
 function Login() {
-  const {loginAsAdmin, loginAsUser} = useLogin()
+  const {login} = useLogin()
   const { data, loading, error } = useQuery(USERS_QUERY);
   const [user, setUser] = useState([]);
 
@@ -63,10 +63,13 @@ function Login() {
 
   useEffect(() => {
   },
-  [loginAsUser])
+  [login])
 
   // if (loading) return "Loading...";
   // if (error) return <pre>{error.message}</pre>
+  if(!login) return(
+    null
+  )
   return (
     <Grid
       container

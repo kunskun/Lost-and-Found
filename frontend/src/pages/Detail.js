@@ -17,11 +17,6 @@ function Detail() {
   const { admin } = useLogin();
   const navigate = useNavigate();
 
-  const handleDelOpen = () => {
-    removeItem(id);
-    navigate("/");
-  };
-
   const Base64ToImg = () => (
     <img
       src={`${selectedItem.image}`}
@@ -52,7 +47,7 @@ function Detail() {
     const local = localStorage.getItem("item");
     setId(local);
     displayItem(id);
-  }, [displayItem, id, admin, selectedItem]);
+  }, [displayItem, selectedItem]);
 
   return (
     <Grid
