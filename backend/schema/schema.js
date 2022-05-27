@@ -114,8 +114,9 @@ const Mutation = new GraphQLObjectType({
            }
        },
        deletePose:{
+        type:PoseType,
         args:{
-            id: { type: new GraphQLNonNull(GraphQLString)},
+            id: { type: new GraphQLNonNull(GraphQLID)},
        },
        resolve(parent,args){
         return Pose.deleteOne({_id: args.id})

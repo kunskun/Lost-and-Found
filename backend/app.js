@@ -136,7 +136,7 @@ app.post('/api/post', function(req, res, next) {
     }) 
  
   });
-  app.ger('/api/logout', (req, res) => {
+  app.get('/api/logout', (req, res) => {
     res.clearCookie('jwt');
     res.redirect('http://localhost:3000');
   });
