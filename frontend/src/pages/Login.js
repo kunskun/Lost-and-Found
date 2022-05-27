@@ -41,14 +41,14 @@ function Login() {
         })
       }}>login</button>
       <button onClick={() => {
-        axios.get(`http://localhost:4000/auth/google/callback`, {
+        axios.get(`http://localhost:4000/kuy`, {
           headers: {
             'Access-Control-Allow-Origin': true,
           },
         })
         .then(res => {
-          const persons = res.data;
-          console.log(res.data);
+          // const persons = res.data;
+          console.log(res);
         })
       }}>logout</button>
     </Grid>
