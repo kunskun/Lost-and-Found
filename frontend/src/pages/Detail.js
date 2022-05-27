@@ -6,11 +6,18 @@ import { useLogin } from "../contexts/LoginContext";
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import IconButton from "@mui/material/IconButton";
+import { useNavigate } from "react-router-dom";
 
 function Detail() {
-  const { selectedItem, displayItem } = useItem();
+  const { selectedItem, displayItem, removeItem } = useItem();
   const [id, setId] = useState("");
   const { admin } = useLogin();
+  const navigate = useNavigate();
+
+  const handleDelOpen = () => {
+    removeItem(id);
+    navigate("/")
+  }
 
   const edit = (
     <IconButton
@@ -31,12 +38,13 @@ function Detail() {
       edge="end"
       aria-label="delete item"
       aria-haspopup="true"
-      // onClick={handleMenuOpen}
+      onClick={handleDelOpen}
       color="inherit"
     >
       <DeleteTwoToneIcon fontSize="28" />
     </IconButton>
   );
+
 
   useEffect(() => {
     const local = localStorage.getItem("item");

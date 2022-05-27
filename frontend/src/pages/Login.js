@@ -20,16 +20,11 @@ function Login() {
   const [user, setUser] = useState([]);
 
   useEffect(() => {
-    axios.get(`https://localhost:4000/login`)
-      .then(res => {
-        const persons = res.data;
-        setUser({ persons });
-      })
   },
   [loginAsUser])
 
-  if (loading) return "Loading...";
-  if (error) return <pre>{error.message}</pre>
+  // if (loading) return "Loading...";
+  // if (error) return <pre>{error.message}</pre>
   return (
     <Grid
       container
@@ -38,8 +33,24 @@ function Login() {
       sx={{ my: "15%", position: "absolute" }}
     >
       <h1>SIGNIN</h1>
-      <button onClick={() => loginAsAdmin()}>admin</button>
-      <button onClick={() => loginAsUser()}>user</button>
+      <button onClick={() => {
+        axios.get(`http://localhost:4000/login`)
+        .then(res => {
+          const persons = res.data;
+          setUser({ persons });
+        })
+      }}>login</button>
+      <button onClick={() => {
+        axios.get(`http://localhost:4000/auth/google/callback`, {
+          headers: {
+            'Access-Control-Allow-Origin': true,
+          },
+        })
+        .then(res => {
+          const persons = res.data;
+          console.log(res.data);
+        })
+      }}>logout</button>
     </Grid>
   );
 }

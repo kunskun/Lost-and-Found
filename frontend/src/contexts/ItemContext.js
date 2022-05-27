@@ -108,10 +108,11 @@ export const ItemProvider = ({ children }) => {
   );
 
   const removeItem = useCallback(
-    (index) => () => {
-      setItems((prev) => [...prev.slice(0, index), ...prev.slice(index + 1)]);
+    (id) => {
+      let tmp = items.filter((item) => {return item.id !== id})
+      setItems(tmp);
     },
-    []
+    [items]
   );
 
   const selectedStatus = useCallback((id, status) => {

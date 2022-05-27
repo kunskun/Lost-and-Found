@@ -12,10 +12,14 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import ToggleButton from "@mui/material/ToggleButton";
 import { useState } from "react";
 import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
+import { LoginProvider, useLogin } from "../contexts/LoginContext";
+import { useNavigate } from "react-router-dom";
 
 export default function NavBar() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [language, setLanguage] = useState(true);
+  const {login} = useLogin();
+  const {navigate} = useNavigate();
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -74,141 +78,144 @@ export default function NavBar() {
     </Menu>
   );
 
+  if(!login) {return null}
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="menu" sx={{ bgcolor: "black", height: 90 }}>
-        <Toolbar>
-          <a href="/" style={{ textDecoration: "none", color: "#ffffff" }}>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="home"
-              sx={{ mr: 2 }}
-            >
-              <CottageIcon fontSize="large" />
-              <Typography
-                variant="h5"
-                noWrap
-                component="div"
-                sx={{
-                  mx: 2,
-                  justifyItem: "center",
-                  display: { xs: "none", sm: "block" },
-                }}
+    <LoginProvider>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="menu" sx={{ bgcolor: "black", height: 80 }}>
+          <Toolbar>
+            <a href="/" style={{ textDecoration: "none", color: "#ffffff" }}>
+              <IconButton
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="home"
+                sx={{ mr: 2 }}
               >
-                Lost & Found
-              </Typography>
-            </IconButton>
-          </a>
-          <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <PopupState variant="popover" popupId="demo-popup-menu">
-              {(popupState) => (
-                <React.Fragment>
-                  <IconButton
-                    size="large"
-                    edge="end"
-                    aria-label="account of current user"
-                    aria-controls={menuId}
-                    aria-haspopup="true"
-                    onClick={handleMenuOpen}
-                    color="inherit"
-                  >
-                    <Typography
-                      fontSize={20}
-                      noWrap
-                      component="div"
-                      sx={{
-                        mr: 1,
-                        justifyItem: "center",
-                        display: { xs: "none", sm: "block" },
-                      }}
-                      {...bindTrigger(popupState)}
+                <CottageIcon fontSize="large" />
+                <Typography
+                  variant="h5"
+                  noWrap
+                  component="div"
+                  sx={{
+                    mx: 2,
+                    justifyItem: "center",
+                    display: { xs: "none", sm: "block" },
+                  }}
+                >
+                  Lost & Found
+                </Typography>
+              </IconButton>
+            </a>
+            <Box sx={{ flexGrow: 1 }} />
+            <Box sx={{ display: { xs: "none", md: "flex" } }}>
+              <PopupState variant="popover" popupId="demo-popup-menu">
+                {(popupState) => (
+                  <React.Fragment>
+                    <IconButton
+                      size="large"
+                      edge="end"
+                      aria-label="account of current user"
+                      aria-controls={menuId}
+                      aria-haspopup="true"
+                      onClick={handleMenuOpen}
+                      color="inherit"
                     >
-                      Username
-                    </Typography>
-                    <AccountCircleOutlinedIcon fontSize="large" />
-                    <Menu {...bindMenu(popupState)}>
-                      <MenuItem onClick={popupState.close}>Logout</MenuItem>
-                    </Menu>
-                  </IconButton>
-                </React.Fragment>
-              )}
-            </PopupState>
-            <Box
-              sx={{
-                p: 2,
-                justifyItem: "center",
-                display: { xs: "none", md: "flex" },
-              }}
-            >
-              <ToggleButton
-                value="th"
-                selected={language}
-                sx={{ border: "none", backgroundColor: "" }}
-                color="primary"
-                onClick={() => {
-                  setLanguage(true);
-                }}
-              >
-                <Typography
-                  noWrap
-                  component="div"
-                  fontSize="20"
-                  sx={{
-                    color: "white",
-                    display: {
-                      xs: "none",
-                      sm: "block",
-                      fontWeight: language === true ? "bold" : "regular",
-                    },
-                  }}
-                >
-                  TH
-                </Typography>
-              </ToggleButton>
-              <Typography
-                variant="h5"
-                noWrap
-                component="div"
+                      <Typography
+                        fontSize={20}
+                        noWrap
+                        component="div"
+                        sx={{
+                          mr: 1,
+                          justifyItem: "center",
+                          display: { xs: "none", sm: "block" },
+                        }}
+                        {...bindTrigger(popupState)}
+                      >
+                        Username
+                      </Typography>
+                      <AccountCircleOutlinedIcon fontSize="large" />
+                      <Menu {...bindMenu(popupState)}>
+                        <MenuItem onClick={popupState.close}>Logout</MenuItem>
+                      </Menu>
+                    </IconButton>
+                  </React.Fragment>
+                )}
+              </PopupState>
+              <Box
                 sx={{
-                  py: 1,
-                  display: { xs: "none", sm: "block", fontWeight: "bold" },
-                }}
-                align="center"
-              >
-                |
-              </Typography>
-              <ToggleButton
-                value="en"
-                selected={language}
-                sx={{ border: "none", backgroundColor: "" }}
-                color="primary"
-                onClick={() => {
-                  setLanguage(false);
+                  p: 2,
+                  justifyItem: "center",
+                  display: { xs: "none", md: "flex" },
                 }}
               >
-                <Typography
-                  noWrap
-                  component="div"
-                  fontSize="20"
-                  sx={{
-                    color: "white",
-                    display: {
-                      xs: "none",
-                      sm: "block",
-                      fontWeight: !language === true ? "bold" : "regular",
-                    },
+                <ToggleButton
+                  value="th"
+                  selected={language}
+                  sx={{ border: "none", backgroundColor: "" }}
+                  color="primary"
+                  onClick={() => {
+                    setLanguage(true);
                   }}
                 >
-                  EN
+                  <Typography
+                    noWrap
+                    component="div"
+                    fontSize="20"
+                    sx={{
+                      color: "white",
+                      display: {
+                        xs: "none",
+                        sm: "block",
+                        fontWeight: language === true ? "bold" : "regular",
+                      },
+                    }}
+                  >
+                    TH
+                  </Typography>
+                </ToggleButton>
+                <Typography
+                  variant="h5"
+                  noWrap
+                  component="div"
+                  sx={{
+                    py: 1,
+                    display: { xs: "none", sm: "block", fontWeight: "bold" },
+                  }}
+                  align="center"
+                >
+                  |
                 </Typography>
-              </ToggleButton>
+                <ToggleButton
+                  value="en"
+                  selected={language}
+                  sx={{ border: "none", backgroundColor: "" }}
+                  color="primary"
+                  onClick={() => {
+                    setLanguage(false);
+                  }}
+                >
+                  <Typography
+                    noWrap
+                    component="div"
+                    fontSize="20"
+                    sx={{
+                      color: "white",
+                      display: {
+                        xs: "none",
+                        sm: "block",
+                        fontWeight: !language === true ? "bold" : "regular",
+                      },
+                    }}
+                  >
+                    EN
+                  </Typography>
+                </ToggleButton>
+              </Box>
             </Box>
-          </Box>
-        </Toolbar>
-      </AppBar>
-    </Box>
+          </Toolbar>
+        </AppBar>
+      </Box>
+    </LoginProvider>
   );
 }
