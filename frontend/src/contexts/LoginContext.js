@@ -18,50 +18,54 @@ const bodyParameters = {
 };
 
 export const LoginProvider = ({ children }) => {
-    const [login, setLogin] = useState(true);
-    const [admin, setAdmin] = useState(true);
+    const [login, setLogin] = useState(false);
+    const [admin, setAdmin] = useState(false);
     const [username, setUsername] = useState('');
-
-    const loginAsAdmin = useCallback(
-      async() => {
-        await setAdmin(true)
-        console.log("admin", admin);
-      },
-      [],
-    );
-
-    const loginAsUser = useCallback(
-      async() => {
-        await setAdmin(false)
-        console.log("user", admin);
-      },
-      [],
-    );
     
+    const logout = useCallback(
+      async () => {
+          cookies.remove('jwt')
+          await setLogin(false);
+          await setAdmin(true);
+          await setUsername('');
+          console.log(login, username, admin);
+        },
+        [login, username, admin]
+       )
+
     const value = useMemo(
         () => ({
           login,
           admin,
-          loginAsAdmin,
-          loginAsUser,
+          username,
+          logout,
         }),
-        [login, admin, loginAsAdmin, loginAsUser]
+        [login, admin, username, logout]
       );
     
-    useEffect(() => {
-      // setUsername(async() => await Cookies.get('test'))
-      console.log(cookies.get('jwt'));
-      axios.post( 
-        'http://localhost:4000/api/profile',
-        bodyParameters,
-        config
+      const fetchData = useCallback(
+        async () => {
+          axios.post( 
+            'http://localhost:4000/api/profile',
+            bodyParameters,
+            config
+          )
+          .then(async (res) => {
+            setLogin(true);
+            if(res.data.users) {
+              await setAdmin(true);
+            } else {
+              await setAdmin(false);
+            }
+            await setUsername(res.data.displayName);
+            console.log(login, username, admin);
+          })
+        }  
       )
-      .then(res => {
-        // const persons = res.data;
-        console.log(res);
-      })
+    useEffect(() => {
+      if(!login) {fetchData()} 
     },
-    [login, admin])
+    [login, admin, username, logout])
 
     return <LoginContext.Provider value={value}>{children}</LoginContext.Provider>;
 }

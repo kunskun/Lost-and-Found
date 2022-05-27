@@ -71,9 +71,9 @@ export const ItemProvider = ({ children }) => {
     async (pose) => {
       let tmp = []
       await items.forEach((item) => {
-        if(item.id === selectedItem.id){
+        if(item._id === selectedItem._id){
           tmp.push({
-            id: selectedItem.id,
+            id: selectedItem._id,
             image: pose.image,
             name: pose.name,
             status: selectedItem.status,
@@ -96,7 +96,7 @@ export const ItemProvider = ({ children }) => {
   const returnItem = useCallback(
     async (id) => {
       let tmp = items.forEach((item) => {
-        if(item.id === id){
+        if(item._id === id){
           item.status = 'ส่งคืนแล้ว'
         }
       })
@@ -108,7 +108,7 @@ export const ItemProvider = ({ children }) => {
 
   const removeItem = useCallback(
     (id) => {
-      let tmp = items.filter((item) => {return item.id !== id})
+      let tmp = items.filter((item) => {return item._id !== id})
       setItems(tmp);
     },
     [items]
@@ -171,7 +171,7 @@ export const ItemProvider = ({ children }) => {
 
   const displayItem = useCallback(async (id) => {
     await items.forEach((item) => {
-      if (item.id === id) {
+      if (item._id === id) {
         setSelectedItem(item);
       }
     });

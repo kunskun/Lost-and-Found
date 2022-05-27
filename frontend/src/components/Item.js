@@ -14,7 +14,7 @@ export const ItemCard = ({ item }) => {
   return (
     <Card
       sx={{ height: "100%", width: "100%", bgcolor: "#efebe9" }}
-      onClick={() => localStorage.setItem("item", item.id)}
+      onClick={() => localStorage.setItem("item", item._id)}
     >
       <CardActionArea>
         <CardMedia

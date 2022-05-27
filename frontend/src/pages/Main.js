@@ -68,9 +68,9 @@ function Main() {
             columnSpacing={{ xs: 1, sm: 2, md: 3 }}
             sx={{ mt: 2, py: 2 }}
           >
-            {listItem.map((item, index) => (
+            {listItem.map((item) => (
               <Grid item xs={3}>
-                <a href="/detail" style={{ textDecoration: "none" }}>
+                <a href="detail" style={{ textDecoration: "none" }}>
                   <ItemCard key={item.id} item={item} />
                 </a>
               </Grid>

@@ -18,8 +18,7 @@ import { useNavigate } from "react-router-dom";
 export default function NavBar() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [language, setLanguage] = useState(true);
-  const {login} = useLogin();
-  const {navigate} = useNavigate();
+  const {login, username, logout} = useLogin();
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -132,11 +131,11 @@ export default function NavBar() {
                         }}
                         {...bindTrigger(popupState)}
                       >
-                        Username
+                        {username}
                       </Typography>
                       <AccountCircleOutlinedIcon fontSize="large" />
                       <Menu {...bindMenu(popupState)}>
-                        <MenuItem onClick={popupState.close}>Logout</MenuItem>
+                        <MenuItem onClick={() => {logout()}}>Logout</MenuItem>
                       </Menu>
                     </IconButton>
                   </React.Fragment>
