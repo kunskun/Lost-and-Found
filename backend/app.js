@@ -106,13 +106,13 @@ app.get('/api/login',
       [ 'email', 'profile' ] }
 ));
 
-app.use('/api/graphql', ensureLoggedIn(),graphqlHTTP({ 
+app.use('/api/graphql',graphqlHTTP({ 
    schema,
    graphiql:true
  
 }));
 app.get('/api/callback',
-  passport.authenticate('google', { failureRedirect: '/login' }),
+  passport.authenticate('google', { failureRedirect: '/api/login' }),
   (req, res) => {
     const token = generateJwtToken(req.user);
     res.cookie('jwt', token);

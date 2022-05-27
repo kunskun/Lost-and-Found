@@ -99,12 +99,16 @@ const Mutation = new GraphQLObjectType({
                 description: { type: new GraphQLNonNull(GraphQLString) },
            },
            resolve(parent,args){
-               let book = new Book({
+               let pose = new Pose({
                    name:args.name,
-                   pages:args.pages,
-                   authorID:args.authorID
+                   image:args.image,
+                   status:args.status,
+                   tag:args.tag,
+                   foundPlace:args.foundPlace,
+                   returnPlace:args.returnPlace,
+                   description:args.description
                })
-               return book.save()
+               return pose.save()
            }
        }
    }
@@ -116,5 +120,5 @@ const Mutation = new GraphQLObjectType({
 //we will allow users to use when they are making requests.
 module.exports = new GraphQLSchema({
    query: RootQuery,
-   Mutation: Mutation
+   mutation: Mutation
 });
