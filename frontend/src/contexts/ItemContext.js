@@ -22,6 +22,10 @@ const POSES_QUERY = gql`{
   }
 `;
 
+// const ADD_POSE = gql`{
+
+// }`
+
 export const ItemProvider = ({ children }) => {
   const [items, setItems] = useState([]);
   const [listItem, setListItem] = useState([]);
