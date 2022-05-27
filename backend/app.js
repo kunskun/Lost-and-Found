@@ -132,8 +132,11 @@ app.post('/api/post', function(req, res, next) {
     res.send('kuy')
   });
   app.post('/api/profile',passport.authenticate('jwt',{ session: false, failureRedirect: '/api/login' }), function(req, res, next) {
-    res.send( 'yser')
-    console.log(User.find({googleId: req.user.googleId}))
+    User.findOne({googleId: req.user.googleId})
+    .then(power =>{
+      console.log(power.config)
+      res.json(power);
+    }) 
  
   });
   app.get('/api/logout', (req, res) => {
