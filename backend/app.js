@@ -18,7 +18,7 @@ mongoose.connection.once('open', () => {
    console.log('connected to database');
  
 });
-app.use(cors())
+app.use(cors({credentials:true}))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(session({
