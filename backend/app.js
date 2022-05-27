@@ -136,10 +136,9 @@ app.post('/api/post', function(req, res, next) {
     }) 
  
   });
-  app.get('/api/logout', (req, res) => {
+  app.post('/api/logout', (req, res) => {
     res.clearCookie('jwt');
     res.clearCookie('user');
-    res.redirect('/');
   });
 
 app.listen(4000, () => {
