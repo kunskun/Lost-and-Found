@@ -106,7 +106,7 @@ app.get('/api/login',
       [ 'email', 'profile' ] }
 ));
 
-app.use('/api/graphql', ensureLoggedIn(),graphqlHTTP({ 
+app.use('/api/graphql',graphqlHTTP({ 
    schema,
    graphiql:true
  
