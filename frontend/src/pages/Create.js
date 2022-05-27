@@ -106,9 +106,11 @@ function Create() {
         returnPlace: newItem.pick_place,
         description: newItem.item_detail
       }
+    }).then((res) => {
+      console.log(res.data.addPose);
+      addItem(res.data.addPose);
+      navigate("/")
     })
-    addItem(newItem);
-    navigate("/")
   }
 
   useEffect(() => {

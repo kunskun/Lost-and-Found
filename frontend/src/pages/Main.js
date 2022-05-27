@@ -34,7 +34,7 @@ function Main() {
   useEffect(() => {
     localStorage.clear();
     
-  }, [listItem]);
+  }, [listItem, items]);
 
   // if (loading) return "Loading...";
   // if (error) return <pre>{error.message}</pre>
@@ -71,7 +71,7 @@ function Main() {
             {listItem.map((item) => (
               <Grid item xs={3}>
                 <a href="detail" style={{ textDecoration: "none" }}>
-                  <ItemCard key={item.id} item={item} />
+                  <ItemCard key={item._id} item={item} />
                 </a>
               </Grid>
             ))}

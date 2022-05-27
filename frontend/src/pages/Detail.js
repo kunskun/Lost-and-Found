@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useItem } from "../contexts/ItemContext";
 import { useLogin } from "../contexts/LoginContext";
 import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
-import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
@@ -108,16 +107,6 @@ function Detail() {
           {selectedItem.status}
         </Typography>
         <Base64ToImg data={selectedItem.image} />
-        {/* <img
-          src={selectedItem.image}
-          alt={selectedItem.name}
-          width="100%"
-          style={{
-            margin: "2% auto",
-            display: "flex",
-            alignItems: "center",
-          }}
-        /> */}
         <Typography variant="h6" fontWeight="bold">
           สถานที่รับคืน
         </Typography>
