@@ -138,7 +138,6 @@ app.post('/api/post', function(req, res, next) {
   });
   app.post('/api/logout', (req, res) => {
     res.clearCookie('jwt');
-    res.clearCookie('user');
   });
 
 app.listen(4000, () => {
