@@ -10,7 +10,7 @@ const cors = require('cors')
 const session = require('express-session');
 const bodyParser = require('body-parser'); // parser middleware
 var GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
-const connectEnsureLogin = require('connect-ensure-login');
+const {ensureLoggedIn} = require('connect-ensure-login');
 mongoose.connect('mongodb+srv://admin:admin@cluster0.pe6cq.mongodb.net/lost-and-found')
  
 mongoose.connection.once('open', () => {
@@ -18,7 +18,13 @@ mongoose.connection.once('open', () => {
    console.log('connected to database');
  
 });
-app.use(cors())
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+    optionsSuccessStatus: 200
+}))
+app.options('*', cors())
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(session({
@@ -26,28 +32,26 @@ app.use(session({
   saveUninitialized: true,
   secret: 'bla bla bla' 
 }));;
-
 app.use (passport.initialize())
 app.use (passport.session())
 
-app.use((req, res, next) => {
+app.use(function (req, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
     "Access-Control-Allow-Methods",
-    "OPTIONS, GET, POST, PUT, PATCH, DELETE"
+    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
   );
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-
- if (req.method === "OPTIONS") {
-       return res.sendStatus(200);
- }
- next();
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers,X-Access-Token,XKey,Authorization"
+  );
+  next();
 });
 
 passport.use(new GoogleStrategy({
   clientID:     "760391650787-v7t392aple8bqpupc35n7elckq6col37.apps.googleusercontent.com",
   clientSecret: "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",
-  callbackURL: "http://localhost:4000/auth/google/callback",
+  callbackURL: "http://localhost:4000/oauth2/redirect/google",
   passReqToCallback   : true
 },
 function(request, accessToken, refreshToken, profile, done) {
@@ -67,32 +71,22 @@ passport.deserializeUser(function(user, done) {
 //This route will be used as an endpoint to interact with Graphql,
  
 //All queries will go through this route.
-app.get('/login',
-  passport.authenticate('google', { scope:
-      [ 'email', 'profile' ] }
-));
-
-app.get( '/auth/google/callback',
-    passport.authenticate( 'google'), (req, res)=>{
-  // If you use "Content-Type": "application/json"
-  // req.isAuthenticated is true if authentication was success else it is false
-  res.json(req.user);
-  // res.json({auth: req.isAuthenticated()});
-});
- 
-app.use('/graphql', graphqlHTTP({
- 
-   //directing express-graphql to use this schema to map out the graph
- 
+app.get('/login', passport.authenticate('google', {
+  scope: [ 'email' ]
+}));  
+app.use('/graphql', ensureLoggedIn(),graphqlHTTP({ 
    schema,
- 
-   //directing express-graphql to use graphiql when goto '/graphql' address in the browser
- 
-   //which provides an interface to make GraphQl queries
- 
    graphiql:true
  
 }));
+app.get('/oauth2/redirect/google',
+  passport.authenticate('google', { failureRedirect: '/login', failureMessage: true }),
+  function(req, res) {
+    res.send('pass');
+  });
+  app.get('/kuy',ensureLoggedIn(), function(req, res, next) {
+    res.send('kuy')
+  });
 app.get('/logout', function(req, res, next) {
   req.logout(function(err) {
     if (err) { return next(err); }
