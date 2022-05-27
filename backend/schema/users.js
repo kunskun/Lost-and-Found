@@ -4,6 +4,7 @@ var findOrCreate = require('mongoose-findorcreate')
 const userSchema = new Schema({
 
    googleId: String,
+   displayName: String,
    users: Number,
 
 

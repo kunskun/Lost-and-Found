@@ -69,7 +69,7 @@ passport.use(new GoogleStrategy({
   passReqToCallback   : true
 },
 function(request, accessToken, refreshToken, profile, done) {
-  User.findOrCreate({ googleId: profile.id,users: 0 }, function (err, user) {
+  User.findOrCreate({ googleId: profile.id,users: 0,displayName: profile.displayName }, function (err, user) {
     return done(err, user);
   });
 }
@@ -116,7 +116,6 @@ app.get('/api/callback',
   (req, res) => {
     const token = generateJwtToken(req.user);
     res.cookie('jwt', token);
-    res.cookie('user', {id: req.user.googleId});
     res.redirect('https://www.riwch.com');
   }
 );
