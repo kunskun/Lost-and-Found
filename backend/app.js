@@ -78,7 +78,7 @@ app.get( '/auth/google/callback',
         failureRedirect: '/login'
 }));
  
-app.use('/graphql', graphqlHTTP({
+app.use('/graphql',connectEnsureLogin(), graphqlHTTP({
  
    //directing express-graphql to use this schema to map out the graph
  
