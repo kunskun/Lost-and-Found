@@ -25,6 +25,7 @@ function Edit() {
     item_detail: selectedItem.description,
     pick_place: selectedItem.returnPlace,
   });
+  const [upImg, setUpImg] = useState(false);
 
   const Input = styled('input')({
     display: 'none',
@@ -50,13 +51,24 @@ function Edit() {
     setNewItem((prev) => ({...prev, type: event.target.value}))
   };
 
+  const handleSelectImage = async (event) => {
+    const file = event.target.files[0]
+
+    let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (e) => {
+            setNewItem((prev) => ({...prev, image: e.target.result}))
+            setUpImg(true)
+        }
+  };
+
   const editItem = () => {
     updateItem(newItem);
     navigate("/detail")
   }
 
   useEffect(() => {
-
+    console.log(newItem);
   },
   [newItem])
 
@@ -208,11 +220,12 @@ function Edit() {
           </Grid>
           <Grid item xs={10}>
             <label htmlFor="contained-button-file">
-              <Input accept="image/*" id="contained-button-file" multiple type="file" />
+              <Input accept="image/*" id="contained-button-file" multiple type="file" onChange={handleSelectImage}/>
               <Button variant="outlined" component="span">
                 Upload
               </Button>
             </label>
+            <Typography variant=" subtitle1" sx={{m: 1}}>{upImg ? "อัพโหลดรูปภาพแล้ว" : "ยังไม่ได้อัพโหลดรูปภาพ"}</Typography>
           </Grid>
         </Grid>
         <Box

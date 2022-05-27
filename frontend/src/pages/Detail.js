@@ -22,6 +22,19 @@ function Detail() {
     navigate("/");
   };
 
+  const Base64ToImg = () => (
+    <img
+      src={`${selectedItem.image}`}
+      alt={selectedItem.name}
+      width="100%"
+      style={{
+        margin: "2% auto",
+        display: "flex",
+        alignItems: "center",
+      }}
+    />
+  );
+
   const edit = (
     <IconButton
       size="large"
@@ -99,7 +112,8 @@ function Detail() {
         >
           {selectedItem.status}
         </Typography>
-        <img
+        <Base64ToImg data={selectedItem.image} />
+        {/* <img
           src={selectedItem.image}
           alt={selectedItem.name}
           width="100%"
@@ -108,7 +122,7 @@ function Detail() {
             display: "flex",
             alignItems: "center",
           }}
-        />
+        /> */}
         <Typography variant="h6" fontWeight="bold">
           สถานที่รับคืน
         </Typography>
@@ -121,17 +135,19 @@ function Detail() {
           รายละเอียด
         </Typography>
         <Typography variant="subtitle1">{selectedItem.description}</Typography>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row-reverse",
-            p: 1,
-            m: 1,
-            borderRadius: 1,
-          }}
-        >
-          <ReturnDialog item={selectedItem} />
-        </Box>
+        {admin ? (
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row-reverse",
+              p: 1,
+              m: 1,
+              borderRadius: 1,
+            }}
+          >
+            <ReturnDialog item={selectedItem} />
+          </Box>
+        ) : null}
       </Grid>
     </Grid>
   );

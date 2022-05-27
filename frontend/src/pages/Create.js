@@ -12,6 +12,7 @@ import { useState } from "react";
 import { useItem } from "../contexts/ItemContext";
 import { useEffect } from "react";
 import { styled } from '@mui/material/styles';
+import imageToBase64 from 'image-to-base64/browser';
 
 function Create() {
   const { types } = useType();
@@ -25,6 +26,7 @@ function Create() {
     item_detail: "",
     pick_place: "ห้องกิจการนักศึกษา ตึกคณะไอที",
   });
+  const [upImg, setUpImg] = useState(false);
 
   const Input = styled('input')({
     display: 'none',
@@ -50,6 +52,17 @@ function Create() {
     setNewItem((prev) => ({...prev, type: event.target.value}))
   };
 
+  const handleSelectImage = async (event) => {
+    const file = event.target.files[0]
+
+    let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (e) => {
+            setNewItem((prev) => ({...prev, image: e.target.result}))
+            setUpImg(true)
+        }
+  };
+
   const createItem = () => {
     addItem(newItem);
     navigate("/")
@@ -58,7 +71,7 @@ function Create() {
   useEffect(() => {
 
   },
-  [newItem])
+  [newItem, upImg])
 
   return (
     <Grid
@@ -204,15 +217,16 @@ function Create() {
         </Grid>
         <Grid container sx={{ p: 2 }}>
           <Grid item xs={2} sx={{ py: 1 }}>
-            <Typography variant="h6">รูปภาพ</Typography>
+            <Typography variant=" h6">รูปภาพ</Typography>
           </Grid>
           <Grid item xs={10}>
             <label htmlFor="contained-button-file">
-              <Input accept="image/*" id="contained-button-file" multiple type="file" />
+              <Input accept="image/jpeg" id="contained-button-file" multiple type="file" onChange={handleSelectImage}/>
               <Button variant="outlined" component="span">
                 Upload
               </Button>
             </label>
+            <Typography variant=" subtitle1" sx={{m: 1}}>{upImg ? "อัพโหลดรูปภาพแล้ว" : "ยังไม่ได้อัพโหลดรูปภาพ"}</Typography>
           </Grid>
         </Grid>
         <Box
