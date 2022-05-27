@@ -18,7 +18,7 @@ const PoseType = new GraphQLObjectType({
    //everything is inilized. For example below code will throw an error AuthorType not
    //found if not wrapped in a function
    fields: () => ({
-       _id: { type: GraphQLID  },
+       _id: { type: GraphQLString  },
        name: { type: GraphQLString },
        image: { type: GraphQLString },
        status: { type: GraphQLString },
@@ -110,16 +110,15 @@ const Mutation = new GraphQLObjectType({
                    returnPlace:args.returnPlace,
                    description:args.description
                })
-               return Pose.save(pose)
+               return pose.save()
            }
        },
        deletePose:{
         type:PoseType,
-        args:{
-            id: { type: new GraphQLNonNull(GraphQLID)},
-       },
+        args: { id: { type: GraphQLID } },
+       
        resolve(parent,args){
-        return Pose.deleteOne({_id: args.id})
+        return Pose.findOneAndDelete({_id: args.id});
     }
        }
    }
