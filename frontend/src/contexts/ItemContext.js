@@ -76,8 +76,18 @@ export const ItemProvider = ({ children }) => {
 
   const addItem = useCallback(
     async (item) => {
-      setItems((prev) => [...prev, { name: item.name, status: item.status }]);
+      setItems((prev) => [...prev, {
+        id: (items.length+1).toString(),
+        image: item.image,
+        name: item.name,
+        status: "ยังไม่พบเจ้าของ",
+        tag: item.type,
+        foundPlace: item.found_place,
+        returnPlace: item.pick_place,
+        description: item.item_detail,
+      }]);
       await searchItem();
+      console.log(items);
     },
     [items, listItem]
   );

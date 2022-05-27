@@ -12,12 +12,11 @@ export default function CheckboxLabels() {
   const { selectedStatus } = useItem();
   const [data, setData] = useState([
     { id: "1", name: "ส่งคืนแล้ว" },
-    { id: "2", name: "ยังไม่พบเจ้าของ" },
+    { id: "0", name: "ยังไม่พบเจ้าของ" },
   ]);
 
   const handleChange = (event) => {
     selectedStatus(event.target.id, event.target.checked);
-    // event.target.id === '1' ? setFound(event.target.checked) : setLost(event.target.checked)
   };
 
   return (
