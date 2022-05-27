@@ -116,7 +116,7 @@ app.get('/api/callback',
   (req, res) => {
     const token = generateJwtToken(req.user);
     res.cookie('jwt', token);
-    res.cookie('user', req.user);
+    res.cookie('user', {id: req.user.googleId});
     res.redirect('https://www.riwch.com');
   }
 );
