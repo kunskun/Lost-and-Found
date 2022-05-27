@@ -82,7 +82,7 @@ app.post( '/auth/google/callback',
   res.json({auth: req.isAuthenticated()});
 });
  
-app.use('/graphql',connectEnsureLogin(), graphqlHTTP({
+app.use('/graphql', graphqlHTTP({
  
    //directing express-graphql to use this schema to map out the graph
  
