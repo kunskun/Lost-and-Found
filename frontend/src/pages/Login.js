@@ -6,6 +6,15 @@ import { useQuery, gql } from "@apollo/client";
 import axios from 'axios';
 import { useState } from "react";
 
+const config = {
+  headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjhlMTk5ZjU4ZDZhNThhMzU2OGI5YWYiLCJnb29nbGVJZCI6IjExNTUyNTE5NzQ4Njg5MzM5MTU4NSIsIl9fdiI6MCwiaWF0IjoxNjUzNjQ2MDUwLCJleHAiOjE2NTQyNTA4NTB9.igEgGhFq4Q-wv2qo-Pq7BIrEK7zcRX3j0IrgwzADYpY` }
+};
+
+const bodyParameters = {
+ key: "value"
+};
+
+
 const USERS_QUERY = gql`
   {
     users{
@@ -34,18 +43,18 @@ function Login() {
     >
       <h1>SIGNIN</h1>
       <button onClick={() => {
-        axios.get(`http://203.78.128.100/api/login`)
+        axios.get(`http://localhost:4000/api/login`)
         .then(res => {
           const persons = res.data;
           setUser({ persons });
         })
       }}>login</button>
       <button onClick={() => {
-        axios.get(`http://203.78.128.100/api/kuy`, {
-          headers: {
-            'Access-Control-Allow-Origin': true,
-          },
-        })
+        axios.post( 
+          'http://localhost:4000/api/kuy',
+          bodyParameters,
+          config
+        )
         .then(res => {
           // const persons = res.data;
           console.log(res);

@@ -9,6 +9,11 @@ const User = require('./schema/users')
 const cors = require('cors')
 const session = require('express-session');
 const bodyParser = require('body-parser'); // parser middleware
+const cookieParser = require('cookie-parser');
+const passportJWT = require("passport-jwt"),
+      JWTStrategy = passportJWT.Strategy,
+      ExtractJWT  = passportJWT.ExtractJwt
+const jwt = require('jsonwebtoken');
 var GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
 const {ensureLoggedIn} = require('connect-ensure-login');
 mongoose.connect('mongodb+srv://admin:admin@cluster0.pe6cq.mongodb.net/lost-and-found')
@@ -32,8 +37,16 @@ app.use(session({
   saveUninitialized: true,
   secret: 'bla bla bla' 
 }));;
+app.use(cookieParser());
 app.use (passport.initialize())
 app.use (passport.session())
+
+const generateJwtToken = (user) => {
+  const token = jwt.sign(user.toJSON(), "bibibi", {
+    expiresIn: '7d',
+  });
+  return token;
+};
 
 app.use(function (req, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -51,7 +64,7 @@ app.use(function (req, res, next) {
 passport.use(new GoogleStrategy({
   clientID:     "760391650787-v7t392aple8bqpupc35n7elckq6col37.apps.googleusercontent.com",
   clientSecret: "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",
-  callbackURL: "/api/oauth2/redirect/google",
+  callbackURL: "/api/callback",
   passReqToCallback   : true
 },
 function(request, accessToken, refreshToken, profile, done) {
@@ -60,6 +73,22 @@ function(request, accessToken, refreshToken, profile, done) {
   });
 }
 ));
+
+passport.use(
+  new JWTStrategy(
+    {
+      jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+      secretOrKey: "bibibi",
+    },
+    (jwtPayload, done) => {
+      if (!jwtPayload) {
+        return done('No token found...');
+      }
+      return done(null, jwtPayload);
+    }
+  )
+);
+
 passport.serializeUser(function(user, done) {
   done(null, user);
 });
@@ -71,28 +100,35 @@ passport.deserializeUser(function(user, done) {
 //This route will be used as an endpoint to interact with Graphql,
  
 //All queries will go through this route.
-app.get('/api/login', passport.authenticate('google', {
-  scope: [ 'email' ]
-}));  
+app.get('/api/login',
+  passport.authenticate('google', { scope:
+      [ 'email', 'profile' ] }
+));
+
 app.use('/api/graphql', ensureLoggedIn(),graphqlHTTP({ 
    schema,
    graphiql:true
  
 }));
-app.get('/api/oauth2/redirect/google',
-  passport.authenticate('google', { failureRedirect: '/login', failureMessage: true }),
-  function(req, res) {
-    res.send('pass');
-  });
-  app.get('/api/kuy',ensureLoggedIn(), function(req, res, next) {
+app.get('/api/callback',
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  (req, res) => {
+    const token = generateJwtToken(req.user);
+    res.cookie('jwt', token);
+    res.send(token);
+  }
+);
+
+  app.get('/api/kuy',passport.authenticate('jwt',{ session: false, failureRedirect: '/api/login' }), function(req, res, next) {
     res.send('kuy')
   });
-app.get('/api/logout', function(req, res, next) {
-  req.logout(function(err) {
-    if (err) { return next(err); }
+  app.post('/api/kuy',passport.authenticate('jwt',{ session: false, failureRedirect: '/api/login' }), function(req, res, next) {
+    res.send('kuy')
+  });
+  app.get('/api/logout', (req, res) => {
+    res.clearCookie('jwt');
     res.redirect('/');
   });
-});
 
 app.listen(4000, () => {
  
