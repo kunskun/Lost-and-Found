@@ -135,7 +135,16 @@ const Mutation = new GraphQLObjectType({
                 returnPlace:args.returnPlace,
                 description:args.description
             })
-            return pose.findOneAndUpdate({_id: args.id})
+            return Pose.findOneAndUpdate({"_id": args.id},
+            { "$set":{
+                name: args.name, 
+                image:args.image,
+                status:args.status,
+                tag:args.tag,
+                foundPlace:args.foundPlace,
+                returnPlace:args.returnPlace,
+                description:args.description}},
+            {"new": true})
         }
     },
        deletePose:{

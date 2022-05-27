@@ -12,6 +12,40 @@ import { useState } from "react";
 import { useItem } from "../contexts/ItemContext";
 import { useEffect } from "react";
 import { styled } from '@mui/material/styles';
+import { useMutation } from "@apollo/client";
+import { gql } from "graphql-tag";
+
+const EDIT_POSE = gql`
+  mutation EditPose (
+    $id: String!,
+    $name: String!,
+    $img: String!,
+    $status: String!,
+    $tag: String!,
+    $foundPlace: String!,
+    $returnPlace: String!,
+    $description: String!,
+    ) {
+    editPose(
+      id: $id,
+      name: $name,
+      image: $img,
+      status: $status,
+      tag: $tag,
+      foundPlace: $foundPlace,
+      returnPlace: $returnPlace,
+      description: $description
+    ){
+      _id
+      name
+      image
+      status
+      tag
+      foundPlace
+      returnPlace
+      description
+    }
+  }`
 
 function Edit() {
   const { types } = useType();
@@ -62,7 +96,21 @@ function Edit() {
         }
   };
 
-  const editItem = () => {
+  const [editPose, { data, loading, error }] = useMutation(EDIT_POSE);
+
+  const editItem = async() => {
+    await editPose({
+      variables: {
+        id: selectedItem._id,
+        name: newItem.name,
+        img: newItem.image,
+        status: selectedItem.status,
+        tag: newItem.type,
+        foundPlace: newItem.found_place,
+        returnPlace: newItem.pick_place,
+        description: newItem.item_detail
+      }
+    })
     updateItem(newItem);
     navigate("/detail")
   }
