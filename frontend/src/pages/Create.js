@@ -1,18 +1,48 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
+import { useState, useEffect } from "react";
 import { Button, Grid, Typography } from "@mui/material";
-import { useType } from "../contexts/TypeContext";
+import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
 import { grey } from "@mui/material/colors";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import Radio from "@mui/material/Radio";
 import RadioGroup from '@mui/material/RadioGroup';
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { useItem } from "../contexts/ItemContext";
-import { useEffect } from "react";
+import Radio from "@mui/material/Radio";
 import { styled } from '@mui/material/styles';
-import imageToBase64 from 'image-to-base64/browser';
+import { useType } from "../contexts/TypeContext";
+import { useItem } from "../contexts/ItemContext";
+import { useNavigate } from "react-router-dom";
+import { useMutation } from "@apollo/client";
+import { gql } from "graphql-tag";
+
+const ADD_POSE = gql`
+  mutation AddPose (
+    $name: String!,
+    $img: String!,
+    $tag: String!,
+    $foundPlace: String!,
+    $returnPlace: String!,
+    $description: String!,
+    ) {
+    addPose(
+      name: $name,
+      image: $img,
+      status: "ยังไม่พบเจ้าของ",
+      tag: $tag,
+      foundPlace: $foundPlace,
+      returnPlace: $returnPlace,
+      description: $description
+    ){
+      _id
+      name
+      image
+      status
+      tag
+      foundPlace
+      returnPlace
+      description
+    }
+  }`
+
 
 function Create() {
   const { types } = useType();
@@ -63,7 +93,20 @@ function Create() {
         }
   };
 
-  const createItem = () => {
+  const [createPose, { data, loading, error }] = useMutation(ADD_POSE);
+
+  const createItem = async() => {
+    if(error) console.log(error.message);
+    await createPose({
+      variables: {
+        name: newItem.name,
+        img: newItem.image,
+        tag: newItem.type,
+        foundPlace: newItem.found_place,
+        returnPlace: newItem.pick_place,
+        description: newItem.item_detail
+      }
+    })
     addItem(newItem);
     navigate("/")
   }
