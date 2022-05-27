@@ -106,10 +106,11 @@ function Create() {
         returnPlace: newItem.pick_place,
         description: newItem.item_detail
       }
-    }).then((res) => {
+    }).then(async (res) => {
       console.log(res.data.addPose);
-      addItem(res.data.addPose);
+      await addItem(res.data.addPose);
       navigate("/")
+      window.location.reload()
     })
   }
 
@@ -118,6 +119,8 @@ function Create() {
   },
   [newItem, upImg])
 
+  if(loading) return (<h1>Loading...</h1>)
+  if(error) return (<h4>error.message</h4>)
   return (
     <Grid
       container

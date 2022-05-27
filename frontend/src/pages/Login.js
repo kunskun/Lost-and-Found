@@ -8,31 +8,9 @@ import Typography from '@mui/material/Typography';
 import { Grid } from "@mui/material";
 import { useLogin } from "../contexts/LoginContext";
 import { useEffect } from "react";
-import { useQuery, gql } from "@apollo/client";
-import axios from 'axios';
-import { useState } from "react";
-
-const config = {
-  headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJnb29nbGVJZCI6IjEwNzY2Mzg5NDc4Mjg4NTY0ODgxOCIsIl9pZCI6IjYyOTBhNGIwYjc4YWVlZDM3Yzk3MzJjMSIsIl9fdiI6MCwiaWF0IjoxNjUzNjQ2NTEzLCJleHAiOjE2NTQyNTEzMTN9.67q4B70sdvvOmQCDZzm1xdeGMhcY2Fp_sm4rLAH65_A` }
-};
-
-const bodyParameters = {
- key: "value"
-};
-
-
-const USERS_QUERY = gql`
-  {
-    users{
-      googleId
-    }
-  }
-`;
 
 function Login() {
   const {login} = useLogin()
-  const { data, loading, error } = useQuery(USERS_QUERY);
-  const [user, setUser] = useState([]);
 
   const bull = (
     <Box

@@ -116,10 +116,12 @@ function Edit() {
   }
 
   useEffect(() => {
-    console.log(newItem);
+
   },
   [newItem])
 
+  if(loading) return (<h1>Loading...</h1>)
+  if(error) return (<h4>error.message</h4>)
   return (
     <Grid
       container

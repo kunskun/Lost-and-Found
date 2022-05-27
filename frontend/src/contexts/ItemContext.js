@@ -32,7 +32,8 @@ export const ItemProvider = ({ children }) => {
 
   const { data, loading, error } = useQuery(POSES_QUERY); 
   
-  const fetchItems = useCallback(async () => {
+  const fetchItems = useCallback(
+    async () => {
     console.log(data.poses);
     if(loading) {
       console.log("Loading...");
@@ -162,7 +163,7 @@ export const ItemProvider = ({ children }) => {
         await setListItem(tmp);
       }
     },
-    [items, listItem, found, lost, types, addItem]
+    [items, listItem, found, lost, types, addItem, data]
   );
 
   const displayItem = useCallback(async (id) => {
@@ -186,6 +187,7 @@ export const ItemProvider = ({ children }) => {
       updateItem,
       removeItem,
       returnItem,
+      fetchItems
     }),
     [
       items,
@@ -199,6 +201,7 @@ export const ItemProvider = ({ children }) => {
       updateItem,
       removeItem,
       returnItem,
+      fetchItems
     ]
   );
 

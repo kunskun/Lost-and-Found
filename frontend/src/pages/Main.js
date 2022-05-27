@@ -36,8 +36,6 @@ function Main() {
     
   }, [listItem, items]);
 
-  // if (loading) return "Loading...";
-  // if (error) return <pre>{error.message}</pre>
   return (
     <Grid container spacing={2} sx={{ p: 2, bgcolor: "#eceff1" }}>
       <Grid item xs={2}>

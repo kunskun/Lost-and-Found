@@ -189,6 +189,7 @@ export default function NavBar() {
                   |
                 </Typography>
                 <ToggleButton
+                  disabled
                   value="en"
                   selected={language}
                   sx={{ border: "none", backgroundColor: "" }}
