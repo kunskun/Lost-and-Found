@@ -24,7 +24,7 @@ function App() {
       <Routes>
         <Route path="/login" element={login ? <Navigate to="/" /> : <Login />} />
         <Route path="/" element={ login ? <Main /> : <Navigate to="/login" />  } />
-        <Route path="detail" element={ login ? <Detail /> : null }  />
+        <Route path="detail" element={ login ? <Detail /> : <h1>Login first</h1> }  />
         <Route path="create" element={ admin ? <Create /> : <h1> Not Have Permission </h1>} />
         <Route path="edit" element={ admin ? <Edit /> : <h1> Not Have Permission </h1>} />
       </Routes>

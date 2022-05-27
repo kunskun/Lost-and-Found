@@ -65,11 +65,6 @@ function Login() {
   },
   [login])
 
-  // if (loading) return "Loading...";
-  // if (error) return <pre>{error.message}</pre>
-  if(!login) return(
-    null
-  )
   return (
     <Grid
       container
