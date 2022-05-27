@@ -51,7 +51,7 @@ app.use(function (req, res, next) {
 passport.use(new GoogleStrategy({
   clientID:     "760391650787-v7t392aple8bqpupc35n7elckq6col37.apps.googleusercontent.com",
   clientSecret: "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",
-  callbackURL: "/oauth2/redirect/google",
+  callbackURL: "/api/oauth2/redirect/google",
   passReqToCallback   : true
 },
 function(request, accessToken, refreshToken, profile, done) {
@@ -71,23 +71,23 @@ passport.deserializeUser(function(user, done) {
 //This route will be used as an endpoint to interact with Graphql,
  
 //All queries will go through this route.
-app.get('/login', passport.authenticate('google', {
+app.get('/api/login', passport.authenticate('google', {
   scope: [ 'email' ]
 }));  
-app.use('/graphql', ensureLoggedIn(),graphqlHTTP({ 
+app.use('/api/graphql', ensureLoggedIn(),graphqlHTTP({ 
    schema,
    graphiql:true
  
 }));
-app.get('/oauth2/redirect/google',
+app.get('/api/oauth2/redirect/google',
   passport.authenticate('google', { failureRedirect: '/login', failureMessage: true }),
   function(req, res) {
     res.send('pass');
   });
-  app.get('/kuy',ensureLoggedIn(), function(req, res, next) {
+  app.get('/api/kuy',ensureLoggedIn(), function(req, res, next) {
     res.send('kuy')
   });
-app.get('/logout', function(req, res, next) {
+app.get('/api/logout', function(req, res, next) {
   req.logout(function(err) {
     if (err) { return next(err); }
     res.redirect('/');
