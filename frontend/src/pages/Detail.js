@@ -1,4 +1,4 @@
-import { Grid, Typography } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useItem } from "../contexts/ItemContext";
@@ -6,7 +6,9 @@ import { useLogin } from "../contexts/LoginContext";
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import IconButton from "@mui/material/IconButton";
+import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
+import ReturnDialog from "../components/Dialog";
 
 function Detail() {
   const { selectedItem, displayItem, removeItem } = useItem();
@@ -45,12 +47,11 @@ function Detail() {
     </IconButton>
   );
 
-
   useEffect(() => {
     const local = localStorage.getItem("item");
     setId(local)
     displayItem(id);
-  }, [displayItem, id, admin]);
+  }, [displayItem, id, admin, selectedItem]);
 
   return (
 
@@ -110,6 +111,17 @@ function Detail() {
             <Typography variant="subtitle1">
                 {selectedItem.description}
             </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row-reverse",
+                p: 1,
+                m: 1,
+                borderRadius: 1,
+              }}
+            >
+              <ReturnDialog item={selectedItem}/>
+            </Box>
           </Grid>
         </Grid>
 

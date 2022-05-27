@@ -107,6 +107,19 @@ export const ItemProvider = ({ children }) => {
     []
   );
 
+  const returnItem = useCallback(
+    async (id) => {
+      let tmp = items.forEach((item) => {
+        if(item.id === id){
+          item.status = 'ส่งคืนแล้ว'
+        }
+      })
+      await setItems(tmp)
+      await displayItem(id)
+    },
+    []
+  );
+
   const removeItem = useCallback(
     (id) => {
       let tmp = items.filter((item) => {return item.id !== id})
@@ -171,7 +184,7 @@ export const ItemProvider = ({ children }) => {
   );
 
   const displayItem = useCallback(async (id) => {
-    await items.filter((item) => {
+    await items.forEach((item) => {
       if (item.id === id) {
         setSelectedItem(item);
       }
@@ -190,6 +203,7 @@ export const ItemProvider = ({ children }) => {
       addItem,
       updateItem,
       removeItem,
+      returnItem,
     }),
     [
       items,
@@ -202,6 +216,7 @@ export const ItemProvider = ({ children }) => {
       addItem,
       updateItem,
       removeItem,
+      returnItem,
     ]
   );
 

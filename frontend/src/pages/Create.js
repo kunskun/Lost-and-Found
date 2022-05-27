@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useItem } from "../contexts/ItemContext";
 import { useEffect } from "react";
+import { styled } from '@mui/material/styles';
 
 function Create() {
   const { types } = useType();
@@ -23,6 +24,10 @@ function Create() {
     found_place: "",
     item_detail: "",
     pick_place: "ห้องกิจการนักศึกษา ตึกคณะไอที",
+  });
+
+  const Input = styled('input')({
+    display: 'none',
   });
 
   const handleNameChange = (event) => {
@@ -195,6 +200,19 @@ function Create() {
                 onChange={handlePickPlaceChange}
               />
             </Box>
+          </Grid>
+        </Grid>
+        <Grid container sx={{ p: 2 }}>
+          <Grid item xs={2} sx={{ py: 1 }}>
+            <Typography variant="h6">รูปภาพ</Typography>
+          </Grid>
+          <Grid item xs={10}>
+            <label htmlFor="contained-button-file">
+              <Input accept="image/*" id="contained-button-file" multiple type="file" />
+              <Button variant="outlined" component="span">
+                Upload
+              </Button>
+            </label>
           </Grid>
         </Grid>
         <Box
